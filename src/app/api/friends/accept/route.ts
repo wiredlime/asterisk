@@ -42,19 +42,42 @@ export async function POST(req: Request) {
     }
 
     // Notify the idToAdd user that they have this new friend
-    pusherServer.trigger(
-      toPusherKey(`user:${idToAdd}:friends`),
-      "new_friend",
-      {}
-    );
+    // Also the trigger an event for the adding user to update their friend requests list in realtime
 
-    // Adding friends to the both target user and current user
-    await db.sadd(`user:${session.user.id}:friends`, idToAdd);
-    await db.sadd(`user:${idToAdd}:friends`, session.user.id);
+    const [userRaw, friendRaw] = (await Promise.all([
+      fetchRedis("get", `user:${session.user.id}`),
+      fetchRedis("get", `user:${idToAdd}`),
+    ])) as [string, string];
 
-    // Remove the existing friend request
-    await db.srem(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
-    await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd);
+    const user = JSON.parse(userRaw) as User;
+    const friend = JSON.parse(friendRaw) as User;
+
+    // notify added user
+
+    await Promise.all([
+      await pusherServer.trigger(
+        toPusherKey(`user:${idToAdd}:friends`),
+        "new_friend",
+        user
+      ),
+      await pusherServer.trigger(
+        toPusherKey(`user:${session.user.id}:friends`),
+        "new_friend",
+        friend
+      ),
+      // Adding friends to the both target user and current user
+      await db.sadd(`user:${session.user.id}:friends`, idToAdd),
+      await db.sadd(`user:${idToAdd}:friends`, session.user.id),
+      // Remove the existing friend request
+      await db.srem(
+        `user:${idToAdd}:incoming_friend_requests`,
+        session.user.id
+      ),
+      await db.srem(
+        `user:${session.user.id}:incoming_friend_requests`,
+        idToAdd
+      ),
+    ]);
 
     return new Response("ok");
   } catch (error) {

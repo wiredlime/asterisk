@@ -57,14 +57,14 @@ export async function POST(req: Request) {
     const message = messageValidator.parse(messageData);
 
     // Notify all connected chat room clients - is listened in private room
-    pusherServer.trigger(
+    await pusherServer.trigger(
       toPusherKey(`chat:${chatId}`),
       "incoming_message",
       message
     );
 
     // Trigger a central new_message event that announce new messages in any chat - is listen all around the app
-    pusherServer.trigger(
+    await pusherServer.trigger(
       toPusherKey(`user:${partnerId}:chats`),
       "new_message",
       { ...message, senderImage: sender.image, senderName: sender.name }

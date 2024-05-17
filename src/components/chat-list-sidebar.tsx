@@ -24,6 +24,7 @@ export default function ChatListSidebar({
   const router = useRouter();
   const pathname = usePathname();
   const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
+  const [activeChats, setActiveChats] = useState<User[]>(friends);
 
   // Listen for new chats and newly added friends
   useEffect(() => {
@@ -55,10 +56,9 @@ export default function ChatListSidebar({
       setUnseenMessages((prev) => [...prev, message]);
     };
 
-    const newFriendHandler = () => {
-      // next refresh : client merge updated RSC payload without losing unaffected client React or browser state
-      // Not as hard reloading the page
-      router.refresh();
+    const newFriendHandler = (newFriend: User) => {
+      // newFriend is the payload received from binding event 'new_friend'
+      setActiveChats((prev) => [...prev, newFriend]);
     };
 
     pusherClient.bind(`new_message`, newMessageHandler);
