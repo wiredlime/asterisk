@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
     // Valid request --> send friend request
     // Trigger an event to notify the idToAdd user
-    pusherServer.trigger(
+    await pusherServer.trigger(
       toPusherKey(`user:${idToAdd}:incoming_friend_requests`),
       "incoming_friend_requests", // event name
       {
