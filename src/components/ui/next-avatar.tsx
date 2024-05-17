@@ -25,6 +25,7 @@ export default function NextAvatar({
       <Image
         src={src}
         referrerPolicy="no-referrer"
+        sizes="sm"
         fill
         className={cn("rounded-full")}
         alt={alt}
