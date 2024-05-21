@@ -47,15 +47,19 @@ function AddFriendButton({}: AddFriendButtonProps) {
     addFriend(data.email);
   };
   return (
-    <form className="max-w-sm flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="email"> Enter their email</label>
-      <div className="flex flex-row gap-2">
+    <form
+      className="grow max-w-sm flex flex-col"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="flex flex-row gap-4">
         <Input
           type="text"
-          placeholder="your@example.com"
+          placeholder="friend@example.com"
           {...register("email")}
         />
-        <Button type="submit">Add</Button>
+        <Button type="submit" size="sm">
+          Add friend
+        </Button>
       </div>
 
       <p className="text-destructive">{errors.email?.message}</p>
