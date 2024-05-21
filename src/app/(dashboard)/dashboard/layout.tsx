@@ -23,7 +23,6 @@ const Layout = async ({ children }: LayoutProps) => {
   // if (!session) notFound();
 
   const session = await getServerSession(authOptions);
-  const friends = await getFriendsByUserId(session?.user.id || "");
 
   const unseenRequestCount = (await fetchRedis(
     "smembers",
@@ -34,7 +33,6 @@ const Layout = async ({ children }: LayoutProps) => {
     <div className="w-full flex h-screen">
       <div className="md:hidden w-full">
         <MobileChatLayout
-          friends={friends}
           session={session}
           unseenRequestCount={unseenRequestCount}
         />
@@ -44,7 +42,6 @@ const Layout = async ({ children }: LayoutProps) => {
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel className="h-screen" defaultSize={20}>
             <SideMenu
-              friends={friends}
               session={session}
               unseenRequestCount={unseenRequestCount}
             />
