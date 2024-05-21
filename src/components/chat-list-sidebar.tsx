@@ -39,19 +39,16 @@ export default function ChatListSidebar({
 
       if (!shouldNotify) return;
       // Notify using toast with a custom component
-      toast.custom(
-        (t) => (
-          <NewMessageToast
-            t={t}
-            sessionId={sessionId}
-            senderId={message.senderId}
-            senderImage={message.senderImage}
-            senderName={message.senderName}
-            message={message.text}
-          />
-        ),
-        { duration: 1000000 }
-      );
+      toast.custom((t) => (
+        <NewMessageToast
+          t={t}
+          sessionId={sessionId}
+          senderId={message.senderId}
+          senderImage={message.senderImage}
+          senderName={message.senderName}
+          message={message.text}
+        />
+      ));
 
       setUnseenMessages((prev) => [...prev, message]);
     };
@@ -84,11 +81,11 @@ export default function ChatListSidebar({
               sessionId,
               friend.id
             )}`}
-            className="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-medium"
+            className="hover:text-indigo-600 hover:bg-gray-50 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-medium"
           >
             {friend.name}
             {unseenMessagesCount > 0 ? (
-              <div className="bg-primary font-medium text-xs w-5 h-5 rounded-full flex justify-center items-center">
+              <div className="bg-primary text-primary-foreground font-medium text-xs w-5 h-5 rounded-full flex justify-center items-center">
                 {unseenMessagesCount}
               </div>
             ) : null}

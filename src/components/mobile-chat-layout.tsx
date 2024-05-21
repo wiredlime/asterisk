@@ -16,7 +16,6 @@ import { usePathname } from "next/navigation";
 
 interface MobileChatLayoutProps extends SideMenuProps {}
 export default function MobileChatLayout({
-  friends,
   session,
   unseenRequestCount,
 }: MobileChatLayoutProps) {
@@ -98,7 +97,6 @@ export default function MobileChatLayout({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         {/* Your content */}
                         <SideMenu
-                          friends={friends}
                           session={session}
                           unseenRequestCount={unseenRequestCount}
                         />

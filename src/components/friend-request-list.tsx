@@ -2,12 +2,14 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
-import { Check, X } from "lucide-react";
+import { Check, UserCheck, X } from "lucide-react";
 import NextAvatar from "./ui/next-avatar";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { pusherClient } from "@/lib/pusher";
 import { toPusherKey } from "@/lib/utils";
+import { UserInfoBox } from "./user-info-box";
+import { Badge } from "./ui/badge";
 
 type FriendRequestListProps = {
   requests: IncomingFriendRequest[];
@@ -74,48 +76,48 @@ export default function FriendRequestList({
       return incomingRequests.map((request) => (
         <div
           key={request.senderId}
-          className="flex items-center justify-between hover:bg-accent p-2"
+          className="p-4 border-b hover:bg-accent/40 flex justify-between items-center"
         >
+          <UserInfoBox
+            image={request.senderImage || ""}
+            name={request.senderName || ""}
+            email={request.senderEmail || ""}
+          />
+
           <div className="flex items-center gap-2">
-            <div className="flex flex-col">
-              {/* <NextAvatar
-                src={request.senderImage || ""}
-                alt="Friend profile image"
-              /> */}
-              <span className="font-medium">{request.senderName}</span>
-              <span className="text-xs text-muted-foreground">
-                {request.senderEmail}
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="default"
-              size="sm"
-              className="rounded-full h-0 p-4"
+            <Badge
+              className="hover:cursor-pointer"
               onClick={() => handleRequestActions(request.senderId, "accept")}
             >
               <Check className="w-4 h-4" />
-            </Button>
-            <Button
+            </Badge>
+
+            <Badge
+              className="hover:cursor-pointer"
               variant="outline"
-              size="sm"
-              className="rounded-full h-0 p-4"
               onClick={() => handleRequestActions(request.senderId, "deny")}
             >
               <X className="w-4 h-4" />
-            </Button>
+            </Badge>
           </div>
         </div>
       ));
     }
 
     return (
-      <div className="grid place-items-center text-muted-foreground">
+      <div className="grid place-items-center text-muted-foreground py-10">
         No incoming requests
       </div>
     );
   }, [incomingRequests, router]);
 
-  return <div className="flex flex-col gap-4">{requestLists}</div>;
+  return (
+    <div className="flex flex-col">
+      <div className="border-b p-4 px-6 h-20 flex items-center justify-between">
+        <p className="text-muted-foreground">All requests</p>
+        <p className="text-muted-foreground">{incomingRequests.length}</p>
+      </div>
+      {requestLists}
+    </div>
+  );
 }
