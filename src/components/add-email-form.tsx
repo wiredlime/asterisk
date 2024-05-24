@@ -36,10 +36,16 @@ export function AddEmailForm({ onNext }: AddEmailFormProps) {
     // validate if email exist
 
     try {
-      await axios.post("/api/auth/register/validate-email", {
+      const response = await axios.post("/api/auth/register/validate-email", {
         email: values.email,
       });
-
+      if (response.status !== 200) {
+        form.setError("email", {
+          message:
+            "Invalid email, please register with a different email address",
+        });
+        return;
+      }
       // Pass email outward to the sign-up-stepper
       onNext?.({ email: values.email });
     } catch (error) {

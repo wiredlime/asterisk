@@ -10,14 +10,12 @@ export async function POST(request: Request) {
     // Check if email exist
     const isExist = await db.exists(`user:email:${email}`);
     if (isExist) {
-      return new Error("Email already exist");
+      return new Response("Email already exist", { status: 403 });
     }
 
     return new Response("OK", { status: 200 });
   } catch (e) {
     console.log({ e });
-    return new Error("Invalid email");
+    return new Response("Invalid email", { status: 403 });
   }
-
-  return new Response("ok");
 }
