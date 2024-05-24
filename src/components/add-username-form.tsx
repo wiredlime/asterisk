@@ -31,7 +31,6 @@ export function AddUsernameForm({ onNext }: AddUsernameFormProps) {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     // Pass email outward to the sign-up-stepper
     onNext?.({ name: values.name });
   }

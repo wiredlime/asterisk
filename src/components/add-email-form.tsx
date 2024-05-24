@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 const formSchema = z.object({
   email: z.string().email("This is not a valid email."),
@@ -20,6 +21,7 @@ const formSchema = z.object({
 type AddEmailFormProps = {
   onNext?: ({ email }: { email: string }) => void;
 };
+
 export function AddEmailForm({ onNext }: AddEmailFormProps) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -30,10 +32,22 @@ export function AddEmailForm({ onNext }: AddEmailFormProps) {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Pass email outward to the sign-up-stepper
-    onNext?.({ email: values.email });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // validate if email exist
+
+    try {
+      await axios.post("/api/auth/register/validate-email", {
+        email: values.email,
+      });
+
+      // Pass email outward to the sign-up-stepper
+      onNext?.({ email: values.email });
+    } catch (error) {
+      form.setError("email", {
+        message:
+          "Invalid email, please register with a different email address",
+      });
+    }
   }
 
   return (

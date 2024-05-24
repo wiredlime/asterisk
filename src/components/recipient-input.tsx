@@ -1,11 +1,7 @@
 "use client";
-import { fetchRedis } from "@/helpers/redis";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import React, { useEffect, useState } from "react";
 import {
   Mention,
-  MentionItem,
   MentionsInput,
   OnChangeHandlerFunc,
   SuggestionDataItem,

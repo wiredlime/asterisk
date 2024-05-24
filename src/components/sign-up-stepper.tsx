@@ -1,18 +1,13 @@
 "use client";
-
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import { AddEmailForm } from "./add-email-form";
-
 import axios from "axios";
 import { AddUsernameForm } from "./add-username-form";
 import { AddImageForm } from "./add-image-form";
-import { PartyPopper } from "lucide-react";
 import { signUpValidator } from "@/lib/validations/sign-up";
-import { signIn } from "next-auth/react";
+import RegistrationSuccess from "./registration-success";
 import toast from "react-hot-toast";
-import Fighter from "./fighter";
 
 const TOTAL_STEPS = 4;
 
@@ -39,13 +34,16 @@ export default function SignUpStepper() {
       });
 
       try {
-        await axios.post("/api/auth/register", {
+        const response = await axios.post("/api/auth/register", {
           email: email,
           name: name,
           image: image,
         });
+
+        console.log("New account registration response:", response);
       } catch (error) {
         console.log(error);
+        toast("Account is not registered");
       }
     }
   };
@@ -78,33 +76,3 @@ export default function SignUpStepper() {
     </div>
   );
 }
-
-type RegistrationSuccessProps = {
-  name: string;
-  image: string;
-  email: string;
-};
-const RegistrationSuccess = ({
-  name,
-  email,
-  image,
-}: RegistrationSuccessProps) => {
-  const handleClick = async () => {
-    try {
-      const response = await signIn("credentials", { email });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to sign you in");
-    }
-  };
-  return (
-    <div className="grid place-items-center space-y-5">
-      <Fighter image={image} name={name} bio={email} />
-      <Button className="w-full gap-2" size="sm" onClick={handleClick}>
-        <PartyPopper className="w-4 h-4" />
-        Join now
-      </Button>
-    </div>
-  );
-};
