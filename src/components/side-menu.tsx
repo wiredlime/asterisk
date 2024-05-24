@@ -9,6 +9,7 @@ import { SidebarOption } from "@/types/typings";
 import { Session } from "next-auth";
 import { UserInfoBox } from "./user-info-box";
 import { Asterisk, Earth, LampDesk, Send } from "lucide-react";
+import ChatListSidebar from "./chat-list-sidebar";
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -38,16 +39,16 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
           <Asterisk className="h-10 text-primary-foreground" />
         </Link>
       </div>
-      <div className="grow p-4">
-        <div className="space-y-3">
-          <ul role="list" className="list-none space-y-4">
+      <div className="grow px-4 py-2">
+        <div className="">
+          <ul role="list" className="list-none">
             {sidebarOptions.map((option) => {
               const Icon = Icons[option.Icon];
               return (
-                <li key={option.id}>
+                <li key={option.id} className="p-2">
                   <Link
                     href={option.href}
-                    className="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md text-sm leading-6"
+                    className=" text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md text-sm leading-6"
                   >
                     <span className="text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
                       <Icon className="h-4 w-4" />
@@ -58,7 +59,7 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
                 </li>
               );
             })}
-            <li>
+            <li className="p-2">
               <FriendRequestSidebarOption
                 sessionId={session?.user.id || ""}
                 initialUnseenRequestCount={unseenRequestCount.length}

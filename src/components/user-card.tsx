@@ -1,27 +1,16 @@
 "use client";
-import { useState } from "react";
 import { Separator } from "./ui/separator";
 import NextAvatar from "./ui/next-avatar";
-import { Button } from "./ui/button";
-import { UserCheck } from "lucide-react";
+import FriendActionButton from "./friend-action-button";
 
 type UserCardProps = {
   isFriend: boolean;
-  userId: string;
   name: string;
   email: string;
   image: string;
 };
 
-const UserCard = ({ isFriend, name, email, image, userId }: UserCardProps) => {
-  const [friend, setFriend] = useState(isFriend);
-
-  const handleAddFriend = () => {
-    setFriend(true);
-  };
-  const handleUnfriend = () => {
-    setFriend(false);
-  };
+const UserCard = ({ isFriend, name, email, image }: UserCardProps) => {
   return (
     <div>
       <div className="flex items-start gap-2">
@@ -34,26 +23,7 @@ const UserCard = ({ isFriend, name, email, image, userId }: UserCardProps) => {
       <div className="flex h-fit items-center space-x-4 text-sm">
         <NextAvatar src={image} alt="p" size={10} className="bg-transparent" />
         <Separator orientation="vertical" className="h-8" />
-
-        {friend ? (
-          <Button
-            className="w-full gap-2"
-            size="sm"
-            variant="ghost"
-            onClick={handleUnfriend}
-          >
-            Friend <UserCheck className="w-3 h-3" />
-          </Button>
-        ) : (
-          <Button
-            className="w-full"
-            size="sm"
-            variant="outline"
-            onClick={handleAddFriend}
-          >
-            Add friend
-          </Button>
-        )}
+        <FriendActionButton isFriend={isFriend} friendEmail={email} />
       </div>
     </div>
   );
