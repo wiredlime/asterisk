@@ -16,18 +16,18 @@ export default function NextAvatar({
   return (
     <div
       className={cn(
-        "relative bg-muted-foreground/80 rounded-full",
+        "relative bg-muted-foreground/10 rounded-full",
         `w-${size}`,
         `h-${size}`,
+
         className
       )}
     >
       <Image
         src={src}
         referrerPolicy="no-referrer"
-        sizes="sm"
         fill
-        className={cn("rounded-full")}
+        className={cn("rounded-full", className)}
         alt={alt}
         {...props}
       />
