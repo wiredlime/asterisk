@@ -1,25 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
 import { addFriendValidator } from "@/lib/validations/add-friend";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
+import { Check } from "lucide-react";
+import toast from "react-hot-toast";
 
 type AddFriendFormData = z.infer<typeof addFriendValidator>;
 type AddFriendButtonProps = {};
 
-// form input and button
 function AddFriendButton({}: AddFriendButtonProps) {
   const [showSuccess, setShowSuccess] = useState(false);
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    reset,
+    formState: { errors, isDirty },
   } = useForm<AddFriendFormData>({
     resolver: zodResolver(addFriendValidator),
   });
@@ -33,6 +34,7 @@ function AddFriendButton({}: AddFriendButtonProps) {
       // either toast general error or check for error type and handle separately
       if (error instanceof z.ZodError) {
         setError("email", { message: error.message });
+        toast.error(error.message);
         return;
       }
       if (error instanceof AxiosError) {
@@ -46,9 +48,10 @@ function AddFriendButton({}: AddFriendButtonProps) {
   const onSubmit = (data: AddFriendFormData) => {
     addFriend(data.email);
   };
+
   return (
     <form
-      className="grow max-w-sm flex flex-col"
+      className="relative grow max-w-sm flex flex-col"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-row gap-4">
@@ -56,14 +59,23 @@ function AddFriendButton({}: AddFriendButtonProps) {
           type="text"
           placeholder="friend@example.com"
           {...register("email")}
+          onKeyDown={() => setShowSuccess(false)}
         />
         <Button type="submit" size="sm">
-          Add friend
+          {showSuccess ? (
+            <div className="gap-2 flex items-center">
+              Sent
+              <Check className="w-3 h-3" />
+            </div>
+          ) : (
+            "Add friend"
+          )}
         </Button>
       </div>
 
-      <p className="text-destructive">{errors.email?.message}</p>
-      {showSuccess && "Friend request sent"}
+      <p className="absolute text-xs text-muted-foreground -bottom-5 ml-2">
+        {errors.email?.message}
+      </p>
     </form>
   );
 }
