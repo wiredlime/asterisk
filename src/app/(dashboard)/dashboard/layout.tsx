@@ -10,7 +10,7 @@ import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-// import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import React, { ReactNode } from "react";
 
 type LayoutProps = {
@@ -19,10 +19,8 @@ type LayoutProps = {
 
 const Layout = async ({ children }: LayoutProps) => {
   // If current user is not verified, they cannot access to dashboard
-  // const session = await getServerSession(authOptions);
-  // if (!session) notFound();
-
   const session = await getServerSession(authOptions);
+  if (!session) notFound();
 
   const unseenRequestCount = (await fetchRedis(
     "smembers",

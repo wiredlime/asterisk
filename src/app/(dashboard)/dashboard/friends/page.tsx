@@ -1,13 +1,13 @@
 import FriendActionButton from "@/components/friend-action-button";
+import FriendList from "@/components/friend-list";
 import NewMessageForm from "@/components/new-message-form";
 import { Button } from "@/components/ui/button";
 import HeaderSection from "@/components/ui/header-section";
 import { Input } from "@/components/ui/input";
 import NextAvatar from "@/components/ui/next-avatar";
-import { UserInfoBox } from "@/components/user-info-box";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
-import { Search, Send, UserCheck } from "lucide-react";
+import { Search } from "lucide-react";
 import { getServerSession } from "next-auth";
 import React from "react";
 
@@ -31,55 +31,12 @@ export default async function page({}: Props) {
   return (
     <div>
       <div className="p-4 border-b h-20 flex items-center gap-5 justify-between">
-        <HeaderSection />
-      </div>
-      <div className="flex flex-row justify-end gap-4 p-4">
-        <Input
-          className="max-w-sm"
-          placeholder="Look friend up by their email..."
-          startAdornment={<Search className="w-4 h-4" />}
+        <HeaderSection
+          header="Yours truly"
+          subheader="Manage, search and send a message to friends here"
         />
-        <Button size="sm">Search</Button>
       </div>
-      {friends.length ? (
-        <div className="flex flex-wrap gap-10 p-10 w-full">
-          {friends.map((friend) => (
-            <div
-              key={friend.id}
-              className="w-56 h-56 flex flex-col justify-center items-center gap-2  p-4 border rounded-2xl shadow-sm"
-            >
-              <div className="grid place-items-center">
-                <div className="flex-shrink-0 mb-4">
-                  <NextAvatar
-                    src={friend.image || ""}
-                    alt={`${friend.name} profile picture`}
-                    className="w-20 h-20"
-                  />
-                </div>
-                <p className="text-sm font-medium">{friend.name}</p>
-                <p className="text-sm text-muted-foreground">{friend.email}</p>
-              </div>
-              <div className="w-full flex items-center gap-2">
-                <NewMessageForm
-                  defaultChatPartner={friend}
-                  sessionId={session?.user.id || ""}
-                  friends={friends}
-                />
-                <FriendActionButton
-                  isFriend={true}
-                  friendEmail={friend.email || ""}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="grid place-items-center py-10">
-          <p className="text-muted-foreground">
-            You have no friends yet, let&apos;s add some
-          </p>
-        </div>
-      )}
+      <FriendList friends={friends} sessionId={session?.user.id || ""} />
     </div>
   );
 }

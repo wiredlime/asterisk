@@ -34,7 +34,7 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
   return (
     <div className="bg-accent/20 h-full flex flex-col justify-between">
       <div className="h-20 border-b p-4 bg-primary flex items-center justify-center">
-        <Link href="/dashboard" className="flex gap-2">
+        <Link href="/dashboard/add" className="flex gap-2">
           <Send className="h-10 text-primary-foreground" />
           <Asterisk className="h-10 text-primary-foreground" />
         </Link>

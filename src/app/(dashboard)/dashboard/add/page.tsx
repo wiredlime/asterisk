@@ -52,7 +52,10 @@ async function Page() {
       </div>
       <div className="">
         <div className="border-b p-4 h-20 flex items-center gap-5 justify-between">
-          <HeaderSection />
+          <HeaderSection
+            header="Meet everybody"
+            subheader="Browse, talk and add everybody on the app here"
+          />
           <AddFriendButton />
         </div>
         <div className="p-4 space-y-4">

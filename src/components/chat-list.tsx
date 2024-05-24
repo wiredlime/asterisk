@@ -1,5 +1,4 @@
 "use client";
-
 import { chatHrefConstructor, cn, toPusherKey } from "@/lib/utils";
 import { Message } from "@/lib/validations/message";
 import Image from "next/image";
@@ -12,6 +11,13 @@ import { pusherClient } from "@/lib/pusher";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import NewMessageToast from "./new-message-toast";
+import { Input } from "./ui/input";
+import { Search, SquarePen } from "lucide-react";
+import NewMessageForm from "./new-message-form";
+import { Button } from "./ui/button";
+import { SearchFriendFormData, SearchFriendFormSchema } from "./friend-list";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export interface ActiveChat extends User {
   lastMessage?: Message;
@@ -20,11 +26,13 @@ export interface ActiveChat extends User {
 type ChatListProps = {
   activeChats: ActiveChat[];
   sessionId: string;
+  friends: User[];
 };
 
 const ChatList = ({
   activeChats: initialActiveChats,
   sessionId,
+  friends,
 }: ChatListProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -55,7 +63,6 @@ const ChatList = ({
           message={message.text}
         />
       ));
-
       setUnseenMessages((prev) => [...prev, message]);
     };
 
@@ -74,49 +81,89 @@ const ChatList = ({
     };
   }, [pathname, router, sessionId]);
 
-  return (
-    <div className="h-full w-full">
-      {activeChats.length === 0 ? (
-        <EmptyState />
-      ) : (
-        activeChats.map((friend) => {
-          const myUnseenMessages = unseenMessages.filter((unseenMsg) => {
-            return unseenMsg.senderId === friend.id;
-          });
+  const { register, handleSubmit } = useForm<SearchFriendFormData>({
+    resolver: zodResolver(SearchFriendFormSchema),
+  });
 
-          if (friend.lastMessage) {
-            const chatId = chatHrefConstructor(sessionId, friend.id);
-            return (
-              <ChatItem
-                key={chatId}
-                chatId={`${chatHrefConstructor(sessionId, friend.id)}`}
-                lastMessageText={friend.lastMessage.text}
-                lastMessageTimestamp={format(
-                  friend.lastMessage.timestamp,
-                  "HH:mm a"
-                )}
-                isLastMessageAuthor={friend.lastMessage.senderId === sessionId}
-                friendName={friend.name || "N/A"}
-                friendImage={friend.image || "N/A"}
-                unseenMessages={myUnseenMessages}
-              />
-            );
-          } else if (!friend.lastMessage) {
-            return (
-              <ChatItem
-                key={friend.id}
-                chatId={`${chatHrefConstructor(sessionId, friend.id)}`}
-                lastMessageText={"Lets start a new conversation"}
-                isLastMessageAuthor={false}
-                friendName={friend.name || "N/A"}
-                isNewConversation={true}
-                friendImage={friend.image || "N/A"}
-                unseenMessages={myUnseenMessages}
-              />
-            );
+  const onSubmit = (data: SearchFriendFormData) => {
+    const filteredChats = initialActiveChats.filter((friend) => {
+      if (friend.name?.toLowerCase().includes(data.name.toLowerCase())) {
+        return true;
+      }
+    });
+    setActiveChats(filteredChats);
+  };
+
+  return (
+    <div className="w-full h-full">
+      <div className="border-b p-4 h-20 flex items-center justify-between">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <Input
+            placeholder="Search friends..."
+            {...register("name")}
+            name="name"
+            startAdornment={<Search className="w-4 h-4" />}
+          />
+        </form>
+        <NewMessageForm
+          sessionId={sessionId || ""}
+          friends={friends}
+          formTrigger={
+            <Button variant="ghost" className="px-0 ml-4 h-0">
+              <SquarePen className="w-5 h-5" />
+            </Button>
           }
-        })
-      )}
+        />
+      </div>
+      <div className="w-full">
+        {activeChats.length === 0 ? (
+          <div className="grid place-items-center p-4 py-10">
+            <p className="text-muted-foreground text-center">
+              You have no friends yet, let&apos;s add some
+            </p>
+          </div>
+        ) : (
+          activeChats.map((friend) => {
+            const myUnseenMessages = unseenMessages.filter((unseenMsg) => {
+              return unseenMsg.senderId === friend.id;
+            });
+
+            if (friend.lastMessage) {
+              const chatId = chatHrefConstructor(sessionId, friend.id);
+              return (
+                <ChatItem
+                  key={chatId}
+                  chatId={`${chatHrefConstructor(sessionId, friend.id)}`}
+                  lastMessageText={friend.lastMessage.text}
+                  lastMessageTimestamp={format(
+                    friend.lastMessage.timestamp,
+                    "HH:mm a"
+                  )}
+                  isLastMessageAuthor={
+                    friend.lastMessage.senderId === sessionId
+                  }
+                  friendName={friend.name || "N/A"}
+                  friendImage={friend.image || "N/A"}
+                  unseenMessages={myUnseenMessages}
+                />
+              );
+            } else if (!friend.lastMessage) {
+              return (
+                <ChatItem
+                  key={friend.id}
+                  chatId={`${chatHrefConstructor(sessionId, friend.id)}`}
+                  lastMessageText={"Lets start a new conversation"}
+                  isLastMessageAuthor={false}
+                  friendName={friend.name || "N/A"}
+                  isNewConversation={true}
+                  friendImage={friend.image || "N/A"}
+                  unseenMessages={myUnseenMessages}
+                />
+              );
+            }
+          })
+        )}
+      </div>
     </div>
   );
 };

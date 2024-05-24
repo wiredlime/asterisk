@@ -49,22 +49,8 @@ export default async function Layout({ children }: LayoutProps) {
   return (
     <div className="h-full grid grid-cols-[4fr_8fr]">
       <div className="h-full border-r">
-        <div className="border-b p-4 h-20 flex items-center justify-between">
-          <Input
-            placeholder="Search friends..."
-            startAdornment={<Search className="w-4 h-4" />}
-          />
-          <NewMessageForm
-            sessionId={session?.user.id || ""}
-            friends={friends}
-            formTrigger={
-              <Button variant="ghost" className="px-0 ml-4 h-0">
-                <SquarePen className="w-5 h-5" />
-              </Button>
-            }
-          />
-        </div>
         <ChatList
+          friends={friends}
           activeChats={friendsWithLastMessage}
           sessionId={session?.user.id || ""}
         />
