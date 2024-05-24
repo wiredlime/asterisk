@@ -10,9 +10,9 @@ import { AddUsernameForm } from "./add-username-form";
 import { AddImageForm } from "./add-image-form";
 import { PartyPopper } from "lucide-react";
 import { signUpValidator } from "@/lib/validations/sign-up";
-import { Fighter } from "@/app/(auth)/login/page";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import Fighter from "./fighter";
 
 const TOTAL_STEPS = 4;
 
