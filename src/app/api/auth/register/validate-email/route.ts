@@ -18,4 +18,6 @@ export async function POST(request: Request) {
     console.log({ e });
     return new Error("Invalid email");
   }
+
+  return new Response("ok");
 }
