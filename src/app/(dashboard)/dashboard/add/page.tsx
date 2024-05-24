@@ -98,7 +98,6 @@ const Everybody = async () => {
                   isFriend={index % 2 === 0}
                   name={user.name || ""}
                   image={user.image || ""}
-                  userId={user.id}
                 />
               </HoverCardContent>
             </HoverCard>

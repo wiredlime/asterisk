@@ -10,9 +10,10 @@ type ChatItemProps = {
   chatId: string;
   friendName: string;
   friendImage: string;
-  lastMessageTimestamp: string;
+  lastMessageTimestamp?: string;
   lastMessageText: string;
   isLastMessageAuthor: boolean;
+  isNewConversation?: boolean;
 };
 
 export default function ChatItem({
@@ -22,6 +23,7 @@ export default function ChatItem({
   lastMessageTimestamp,
   lastMessageText,
   isLastMessageAuthor,
+  isNewConversation = false,
 }: ChatItemProps) {
   const pathname = usePathname();
 
@@ -33,12 +35,13 @@ export default function ChatItem({
     <div
       key={chatId}
       className={cn("p-3 hover:bg-accent/80", {
-        "bg-accent/80": isSelected,
+        "bg-accent/80": isSelected || isNewConversation,
+        // "bg-indigo-50/50": isNewConversation,
       })}
     >
       <Link
         href={`/dashboard/chat/${chatId}`}
-        className="flex items-center gap-4"
+        className="relative flex items-center gap-4"
       >
         <div className="flex-shrink-0">
           <NextAvatar
@@ -51,9 +54,11 @@ export default function ChatItem({
         <div className="grow">
           <div className="flex items-center justify-between">
             <p className="text-base font-semibold">{friendName}</p>
-            <p className="text-sm text-muted-foreground">
-              {lastMessageTimestamp}
-            </p>
+            {lastMessageTimestamp && (
+              <p className="text-xs text-muted-foreground">
+                {lastMessageTimestamp}
+              </p>
+            )}
           </div>
           <p className="text-sm max-w-72 truncate">
             <span className="text-muted-foreground">
@@ -61,6 +66,12 @@ export default function ChatItem({
             </span>
             {lastMessageText}
           </p>
+
+          {!isNewConversation && (
+            <div className="absolute right-0 bottom-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex justify-center items-center text-xs">
+              1
+            </div>
+          )}
         </div>
       </Link>
     </div>

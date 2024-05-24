@@ -8,12 +8,14 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import ChatItem from "./chat-item";
+import ChatListSidebar from "./chat-list-sidebar";
 
 const ChatList = async ({}) => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
 
   const friends = await getFriendsByUserId(session.user.id);
+  const friendsWithoutConvo: User[] = [];
   const friendsWithLastMessage = await Promise.all(
     friends.map(async (friend) => {
       const [lastMessageRaw] = (await fetchRedis(
@@ -30,6 +32,7 @@ const ChatList = async ({}) => {
           lastMessage,
         };
       } else {
+        friendsWithoutConvo.push(friend);
         return null;
       }
     })
@@ -62,6 +65,18 @@ const ChatList = async ({}) => {
           }
         })
       )}
+      {/* <ChatListSidebar friends={friends} sessionId={session.user.id} /> */}
+      {friendsWithoutConvo.map((f) => (
+        <ChatItem
+          key={f.id}
+          chatId={`${chatHrefConstructor(session.user.id, f.id)}`}
+          lastMessageText={"Lets start a new conversation"}
+          isLastMessageAuthor={false}
+          friendName={f.name || "N/A"}
+          isNewConversation={true}
+          friendImage={f.image || "N/A"}
+        />
+      ))}
     </div>
   );
 };

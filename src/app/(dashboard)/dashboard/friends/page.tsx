@@ -1,3 +1,5 @@
+import FriendActionButton from "@/components/friend-action-button";
+import NewMessageForm from "@/components/new-message-form";
 import { Button } from "@/components/ui/button";
 import HeaderSection from "@/components/ui/header-section";
 import { Input } from "@/components/ui/input";
@@ -58,24 +60,15 @@ export default async function page({}: Props) {
                 <p className="text-sm text-muted-foreground">{friend.email}</p>
               </div>
               <div className="w-full flex items-center gap-2">
-                <Button
-                  className="grow gap-2"
-                  size="sm"
-                  // variant="outline"
-                  // onClick={handleUnfriend}
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
-
-                <Button
-                  className="w-full gap-2"
-                  size="sm"
-                  variant="outline"
-                  // onClick={handleUnfriend}
-                >
-                  Friend
-                  <UserCheck className="w-4 h-4" />
-                </Button>
+                <NewMessageForm
+                  defaultChatPartner={friend}
+                  sessionId={session?.user.id || ""}
+                  friends={friends}
+                />
+                <FriendActionButton
+                  isFriend={true}
+                  friendEmail={friend.email || ""}
+                />
               </div>
             </div>
           ))}

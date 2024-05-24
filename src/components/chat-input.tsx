@@ -1,11 +1,19 @@
 "use client";
-
-import React, { useRef, useState } from "react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import React, { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "./ui/button";
-import { Loader2, SendHorizonal } from "lucide-react";
+import { Loader2, SendHorizonal, SmilePlus } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type ChatInputProps = {
   chatPartner: User;
@@ -18,6 +26,8 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [input, setInput] = useState<string>("");
+  const [cursorPosition, setCursorPosition] = useState(0);
+
   const sendMessage = async () => {
     if (!input.length) return;
     setIsLoading(true);
@@ -33,10 +43,39 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
       setIsLoading(false);
     }
   };
+
+  const handleEmojiClick = (emoji: EmojiClickData) => {
+    const ref = textareaRef.current;
+
+    if (ref) {
+      ref?.focus();
+      const start = input.substring(0, ref.selectionStart);
+      const end = input.substring(ref.selectionStart);
+      const text = start + emoji.emoji + end;
+      setInput(text);
+      setCursorPosition(start.length + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.selectionEnd = cursorPosition;
+    }
+  }, [cursorPosition]);
+
   return (
     <div className="border-t p-4 mb-2 sm:mb-0 flex gap-4">
       <div className="grow overflow-hidden rounded-lg shadow ring-1 ring-inset ring-accent focus-within:ring-2 focus-within:ring-primary">
         <div className="flex flex-row p-2">
+          <Popover>
+            <PopoverTrigger className="px-4">
+              <SmilePlus className="w-5 h-5" />
+            </PopoverTrigger>
+            <PopoverContent className="bg-transparent w-fit h-fit shadow-none border-none">
+              <EmojiPicker onEmojiClick={handleEmojiClick} />
+            </PopoverContent>
+          </Popover>
+
           <TextareaAutosize
             rows={1}
             value={input}
@@ -51,6 +90,7 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
               }
             }}
           />
+
           <Button
             onClick={sendMessage}
             type="submit"

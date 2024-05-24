@@ -54,7 +54,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="flex-1 justify-between flex flex-col h-full max-h-[calc(100vh)]">
-      <div className="h- flex sm:items-center justify-between p-2 px-4 border-b border-gray-200">
+      <div className="flex sm:items-center justify-between p-2 px-4 border-b border-gray-200">
         <div className="relative flex items-center gap-4">
           <NextAvatar
             fill

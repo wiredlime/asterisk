@@ -1,4 +1,5 @@
 import ChatList from "@/components/chat-list";
+import NewMessageForm from "@/components/new-message-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
@@ -25,9 +26,15 @@ export default async function Layout({ children }: LayoutProps) {
             placeholder="Search friends..."
             startAdornment={<Search className="w-4 h-4" />}
           />
-          <Button variant="ghost" className="px-0 ml-4 h-0">
-            <SquarePen className="w-5 h-5" />
-          </Button>
+          <NewMessageForm
+            sessionId={session?.user.id || ""}
+            friends={friends}
+            formTrigger={
+              <Button variant="ghost" className="px-0 ml-4 h-0">
+                <SquarePen className="w-5 h-5" />
+              </Button>
+            }
+          />
         </div>
         <ChatList />
       </div>

@@ -110,6 +110,10 @@ h6 {
   letter-spacing: 0.04em;
 }
 
+input:focus-visible {
+  outline: none;
+}
+
 .scrollbar-w-2::-webkit-scrollbar {
   width: 0.25rem;
   height: 0.25rem;
