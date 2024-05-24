@@ -1,85 +1,127 @@
-import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
-import { fetchRedis } from "@/helpers/redis";
-import { authOptions } from "@/lib/auth";
-import { chatHrefConstructor, cn } from "@/lib/utils";
+"use client";
+
+import { chatHrefConstructor, cn, toPusherKey } from "@/lib/utils";
 import { Message } from "@/lib/validations/message";
-import { getServerSession } from "next-auth";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { format } from "date-fns";
 import ChatItem from "./chat-item";
-import ChatListSidebar from "./chat-list-sidebar";
+import { NewMessageNotification } from "./chat-list-sidebar";
+import { useEffect, useState } from "react";
+import { pusherClient } from "@/lib/pusher";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import NewMessageToast from "./new-message-toast";
 
-const ChatList = async ({}) => {
-  const session = await getServerSession(authOptions);
-  if (!session) notFound();
+export interface ActiveChat extends User {
+  lastMessage?: Message;
+}
 
-  const friends = await getFriendsByUserId(session.user.id);
-  const friendsWithoutConvo: User[] = [];
-  const friendsWithLastMessage = await Promise.all(
-    friends.map(async (friend) => {
-      const [lastMessageRaw] = (await fetchRedis(
-        "zrange",
-        `chat:${chatHrefConstructor(session.user.id, friend.id)}:messages`,
-        -1,
-        -1
-      )) as string[];
+type ChatListProps = {
+  activeChats: ActiveChat[];
+  sessionId: string;
+};
 
-      if (lastMessageRaw) {
-        const lastMessage = JSON.parse(lastMessageRaw) as Message;
-        return {
-          ...friend,
-          lastMessage,
-        };
-      } else {
-        friendsWithoutConvo.push(friend);
-        return null;
-      }
-    })
-  );
+const ChatList = ({
+  activeChats: initialActiveChats,
+  sessionId,
+}: ChatListProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
+  const [activeChats, setActiveChats] =
+    useState<ActiveChat[]>(initialActiveChats);
+
+  // Listen for new chats and newly added friends
+  useEffect(() => {
+    pusherClient.subscribe(toPusherKey(`user:${sessionId}:chats`));
+    pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`));
+
+    const newMessageHandler = (message: NewMessageNotification) => {
+      // Check user is already within the chat ->  no notification needed
+      const shouldNotify =
+        pathname !==
+        `/dashboard/chat/${chatHrefConstructor(sessionId, message.senderId)}`;
+
+      if (!shouldNotify) return;
+      // Notify using toast with a custom component
+      toast.custom((t) => (
+        <NewMessageToast
+          t={t}
+          sessionId={sessionId}
+          senderId={message.senderId}
+          senderImage={message.senderImage}
+          senderName={message.senderName}
+          message={message.text}
+        />
+      ));
+
+      setUnseenMessages((prev) => [...prev, message]);
+    };
+
+    const newFriendHandler = (newFriend: User) => {
+      // newFriend is the payload received from binding event 'new_friend'
+      setActiveChats((prev) => [...prev, newFriend]);
+    };
+
+    pusherClient.bind(`new_message`, newMessageHandler);
+    pusherClient.bind(`new_friend`, newFriendHandler);
+    return () => {
+      pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:chats`));
+      pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:friends`));
+      pusherClient.unbind(`new_message`, newMessageHandler);
+      pusherClient.unbind(`new_friend`, newFriendHandler);
+    };
+  }, [pathname, router, sessionId]);
 
   return (
-    <div className="h-full max-w-sm md:max-w-md">
-      {friendsWithLastMessage.length === 0 ? (
+    <div className="h-full w-full">
+      {activeChats.length === 0 ? (
         <EmptyState />
       ) : (
-        friendsWithLastMessage.map((friend) => {
-          if (friend) {
-            const chatId = chatHrefConstructor(session.user.id, friend.id);
+        activeChats.map((friend) => {
+          const myUnseenMessages = unseenMessages.filter((unseenMsg) => {
+            return unseenMsg.senderId === friend.id;
+          });
+
+          if (friend.lastMessage) {
+            const chatId = chatHrefConstructor(sessionId, friend.id);
             return (
               <ChatItem
                 key={chatId}
-                chatId={`${chatHrefConstructor(session.user.id, friend.id)}`}
+                chatId={`${chatHrefConstructor(sessionId, friend.id)}`}
                 lastMessageText={friend.lastMessage.text}
                 lastMessageTimestamp={format(
                   friend.lastMessage.timestamp,
                   "HH:mm a"
                 )}
-                isLastMessageAuthor={
-                  friend.lastMessage.senderId === session.user.id
-                }
+                isLastMessageAuthor={friend.lastMessage.senderId === sessionId}
                 friendName={friend.name || "N/A"}
                 friendImage={friend.image || "N/A"}
+                unseenMessages={myUnseenMessages}
+              />
+            );
+          } else if (!friend.lastMessage) {
+            return (
+              <ChatItem
+                key={friend.id}
+                chatId={`${chatHrefConstructor(sessionId, friend.id)}`}
+                lastMessageText={"Lets start a new conversation"}
+                isLastMessageAuthor={false}
+                friendName={friend.name || "N/A"}
+                isNewConversation={true}
+                friendImage={friend.image || "N/A"}
+                unseenMessages={myUnseenMessages}
               />
             );
           }
         })
       )}
-      {/* <ChatListSidebar friends={friends} sessionId={session.user.id} /> */}
-      {friendsWithoutConvo.map((f) => (
-        <ChatItem
-          key={f.id}
-          chatId={`${chatHrefConstructor(session.user.id, f.id)}`}
-          lastMessageText={"Lets start a new conversation"}
-          isLastMessageAuthor={false}
-          friendName={f.name || "N/A"}
-          isNewConversation={true}
-          friendImage={f.image || "N/A"}
-        />
-      ))}
     </div>
   );
 };
+
+export default ChatList;
 
 // TODO: Make component reusable
 export const EmptyState = () => {
@@ -98,5 +140,3 @@ export const EmptyState = () => {
     </div>
   );
 };
-
-export default ChatList;
