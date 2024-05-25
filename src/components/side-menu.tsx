@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import SignOutButton from "./sign-out-btn";
-import NextAvatar from "./ui/next-avatar";
 import { Icons } from "./icons";
 import FriendRequestSidebarOption from "./friend-request-sidebar-option";
 import { SidebarOption } from "@/types/typings";
 import { Session } from "next-auth";
 import { UserInfoBox } from "./user-info-box";
 import { Asterisk, Earth, LampDesk, Send } from "lucide-react";
-import ChatListSidebar from "./chat-list-sidebar";
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -39,27 +37,31 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
           <Asterisk className="h-10 text-primary-foreground" />
         </Link>
       </div>
-      <div className="grow px-4 py-2">
-        <div className="">
-          <ul role="list" className="list-none">
+      <div className="grow">
+        <div className="h-full">
+          <ul role="list" className="h-full list-none">
             {sidebarOptions.map((option) => {
               const Icon = Icons[option.Icon];
               return (
-                <li key={option.id} className="p-2">
+                <li
+                  key={option.id}
+                  className="border-b px-5 p-4 hover:bg-gray-50"
+                >
                   <Link
                     href={option.href}
-                    className=" text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md text-sm leading-6"
+                    className=" text-gray-700 hover:text-indigo-600  flex items-center group gap-5 rounded-md text-sm leading-6"
                   >
-                    <span className="text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
-                      <Icon className="h-4 w-4" />
-                    </span>
+                    {/* <span className="text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"> */}
 
-                    <span className="truncate">{option.name}</span>
+                    <Icon className="h-5 w-5 shrink-0" />
+                    {/* </span> */}
+
+                    <span className="truncate font-medium">{option.name}</span>
                   </Link>
                 </li>
               );
             })}
-            <li className="p-2">
+            <li className="border-b px-5 p-4 hover:bg-gray-50">
               <FriendRequestSidebarOption
                 sessionId={session?.user.id || ""}
                 initialUnseenRequestCount={unseenRequestCount.length}
