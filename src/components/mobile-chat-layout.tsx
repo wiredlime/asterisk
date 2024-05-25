@@ -4,13 +4,12 @@ import { Fragment, useEffect, useState } from "react";
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Menu, X } from "lucide-react";
+import { Asterisk, Menu, Send, X } from "lucide-react";
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import { SideMenu, SideMenuProps } from "./side-menu";
 import { usePathname } from "next/navigation";
 
@@ -30,11 +29,9 @@ export default function MobileChatLayout({
   return (
     <div className="fixed w-full bg-zinc-50 border-b border-zinc-200 top-0 inset-z-0 py-3 px-4">
       <div className="w-full flex justify-between items-center">
-        <Link
-          href="/dashboard"
-          className={buttonVariants({ variant: "ghost" })}
-        >
-          Logo button
+        <Link href="/dashboard/add" className="flex gap-2">
+          <Send className="h-10 " />
+          <Asterisk className="h-10 " />
         </Link>
         <Button onClick={() => setOpen(true)} className="space-x-4">
           <Menu className="w-6 h-6" />
@@ -88,19 +85,11 @@ export default function MobileChatLayout({
                         </button>
                       </div>
                     </TransitionChild>
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                      <div className="px-4 sm:px-6">
-                        <DialogTitle className="text-base font-semibold leading-6 text-gray-900">
-                          Menu
-                        </DialogTitle>
-                      </div>
-                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        {/* Your content */}
-                        <SideMenu
-                          session={session}
-                          unseenRequestCount={unseenRequestCount}
-                        />
-                      </div>
+                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                      <SideMenu
+                        session={session}
+                        unseenRequestCount={unseenRequestCount}
+                      />
                     </div>
                   </DialogPanel>
                 </TransitionChild>
