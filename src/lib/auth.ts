@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
           )) as string;
           const result = (await db.get(`user:${userId}`)) as User;
 
+          console.log(userId, result);
           if (userId) {
             return {
               id: userId,
