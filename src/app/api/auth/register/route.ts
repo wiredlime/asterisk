@@ -19,14 +19,18 @@ export async function POST(request: Request) {
     const id = nanoid();
 
     // Write user account to database
-    db.set(`user:email:${email}`, id);
-    db.set(`user:${id}`, {
+    await db.set(`user:email:${email}`, id);
+    await db.set(`user:${id}`, {
       name,
       image,
       email,
       id,
     });
 
+    // Query again
+
+    const checkWrites = await db.exists(`user:email:${email}`);
+    console.log(checkWrites);
     return new Response("OK", { status: 200 });
   } catch (e) {
     console.log({ e });
