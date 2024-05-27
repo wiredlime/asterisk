@@ -21,7 +21,7 @@ export function AddImageForm({ onNext }: AddImageFormProps) {
         Last step, select your profile image
       </p>
 
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-4">
         {imageOptions.map((image, index) => (
           <div
             className="group relative hover:cursor-pointer"
@@ -36,7 +36,7 @@ export function AddImageForm({ onNext }: AddImageFormProps) {
               alt={`Profile image option ${index}`}
               className="hover:cursor-pointer hover:scale-110 duration-150"
             />
-            <div className="hidden group-hover:grid absolute top-0 -left-2 w-24 h-24 bg-accent/40 rounded-full  place-items-center">
+            <div className="hidden group-hover:grid absolute -top-2 -left-2 w-24 h-24 bg-accent/40 rounded-full  place-items-center">
               <Plus className="opacity-70 text-background" />
             </div>
           </div>
