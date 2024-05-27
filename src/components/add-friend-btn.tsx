@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import axios, { AxiosError } from "axios";
 import { addFriendValidator } from "@/lib/validations/add-friend";
@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 type AddFriendFormData = z.infer<typeof addFriendValidator>;
@@ -15,20 +15,22 @@ type AddFriendButtonProps = {};
 
 function AddFriendButton({}: AddFriendButtonProps) {
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
     setError,
-    reset,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<AddFriendFormData>({
     resolver: zodResolver(addFriendValidator),
   });
 
   const addFriend = async (email: string) => {
     try {
+      setIsLoading(true);
       const validatedEmail = addFriendValidator.parse({ email });
       await axios.post("/api/friends/add", { email: validatedEmail });
+      setIsLoading(false);
       setShowSuccess(true);
     } catch (error) {
       // either toast general error or check for error type and handle separately
@@ -62,7 +64,9 @@ function AddFriendButton({}: AddFriendButtonProps) {
           onKeyDown={() => setShowSuccess(false)}
         />
         <Button type="submit" size="sm">
-          {showSuccess ? (
+          {isLoading ? (
+            <Loader2 className="text-muted-foreground w-4 h-5 animate-spin" />
+          ) : showSuccess ? (
             <div className="gap-2 flex items-center">
               Sent
               <Check className="w-3 h-3" />

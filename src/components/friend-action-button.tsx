@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { Button, ButtonProps } from "./ui/button";
-import { UserCheck } from "lucide-react";
+import { Loader2, UserCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addFriendValidator } from "@/lib/validations/add-friend";
 import axios, { AxiosError } from "axios";
@@ -24,11 +24,14 @@ export default function FriendActionButton({
   className,
 }: FriendActionButtonProps) {
   const [isFriend, setIsFriend] = useState(initialIsFriend);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUnfriend = async () => {
+    setIsLoading(true);
     try {
       const validatedEmail = addFriendValidator.parse({ email: friendEmail });
       await axios.post("/api/friends/unfriend", { email: validatedEmail });
+      setIsLoading(false);
       setIsFriend(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -45,7 +48,7 @@ export default function FriendActionButton({
   };
 
   return isFriend ? (
-    <div className="group w-full">
+    <div className="group w-full hover:cursor-pointer">
       <Button
         className={cn("group-hover:hidden w-full gap-2", className)}
         size="sm"
@@ -59,7 +62,11 @@ export default function FriendActionButton({
         variant="secondary"
         onClick={handleUnfriend}
       >
-        Unfriend
+        {isLoading ? (
+          <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
+        ) : (
+          "Unfriend"
+        )}
       </Button>
     </div>
   ) : (
@@ -82,11 +89,15 @@ const AddFriendButton = ({
   friendEmail,
 }: AddFriendButtonProps) => {
   const [friendRequestSent, setFriendRequestSent] = useState(isFriend);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddFriend = async () => {
+    setIsLoading(true);
+
     try {
       const validatedEmail = addFriendValidator.parse({ email: friendEmail });
       await axios.post("/api/friends/add", { email: validatedEmail });
+      setIsLoading(false);
       setFriendRequestSent(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -115,7 +126,11 @@ const AddFriendButton = ({
       variant="outline"
       onClick={handleAddFriend}
     >
-      Add friend
+      {isLoading ? (
+        <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
+      ) : (
+        "Add friend"
+      )}
     </Button>
   );
 };

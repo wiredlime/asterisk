@@ -28,7 +28,7 @@ const Layout = async ({ children }: LayoutProps) => {
   )) as User[];
 
   return (
-    <div className="w-full flex h-screen">
+    <div className="w-full flex h-screen overflow-y-hidden">
       <div className="md:hidden w-full">
         <MobileChatLayout
           session={session}

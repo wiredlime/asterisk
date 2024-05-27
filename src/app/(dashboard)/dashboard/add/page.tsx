@@ -2,19 +2,12 @@ import AddFriendButton from "@/components/add-friend-btn";
 import FriendRequestList from "@/components/friend-request-list";
 import HeaderSection from "@/components/ui/header-section";
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-
 import UserCard from "@/components/user-card";
-import { UserInfoBox } from "@/components/user-info-box";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
+import { uniqBy } from "lodash";
 
 import { getServerSession } from "next-auth";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -58,9 +51,7 @@ async function Page() {
           />
           <AddFriendButton />
         </div>
-        <div className="p-4 space-y-4">
-          <Everybody />
-        </div>
+        <Everybody />
       </div>
     </main>
   );
@@ -70,44 +61,36 @@ const Everybody = async () => {
   // Get all users
   const session = await getServerSession(authOptions);
   const result = await fetchRedis("smembers", `users`);
-  const users: User[] = result
-    .map((user: string) => JSON.parse(user) as User)
-    .filter((user: User) => user.email !== session?.user.email);
+  const users: User[] = uniqBy(
+    result
+      .map((user: string) => JSON.parse(user) as User)
+      .filter((user: User) => user.email !== session?.user.email),
+    (user) => {
+      return user.email;
+    }
+  );
 
   return (
-    <>
+    <div className="p-4 relative space-y-4">
       <p className="text-xs text-muted-foreground text-end">
         There are {users.length} friends waiting for you
       </p>
-      <div className="flex flex-wrap gap-2">
+      <div className="absolute top-8 h-12 w-full bg-gradient-to-t from-transparent to-white to-100% z-10"></div>
+      <div className="py-8 flex flex-wrap gap-4 no-scrollbar overflow-y-scroll overflow-x-hidden h-[780px]">
         {users.map((user, index) => {
           return (
-            <HoverCard key={user.id}>
-              <HoverCardTrigger asChild>
-                <div className="bg-accent/20 rounded-full">
-                  <Image
-                    referrerPolicy="no-referrer"
-                    width={180}
-                    height={180}
-                    src={user.image || ""}
-                    alt={`${user.name} profile`}
-                    className="hover:cursor-pointer hover:scale-110 duration-150 rounded-full"
-                  />
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent align="start" side="top" className="shadow-sm">
-                <UserCard
-                  email={user.email || ""}
-                  isFriend={index % 2 === 0}
-                  name={user.name || ""}
-                  image={user.image || ""}
-                />
-              </HoverCardContent>
-            </HoverCard>
+            <UserCard
+              key={user.id}
+              name={user.name || ""}
+              image={user.image || ""}
+              email={user.email || ""}
+              isFriend={false}
+            />
           );
         })}
+        <div className="w-[223px] h-[257px]"></div>
       </div>
-    </>
+    </div>
   );
 };
 

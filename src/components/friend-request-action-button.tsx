@@ -1,7 +1,8 @@
+"use client";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { CheckCheck } from "lucide-react";
+import { Check, CheckCheck, Loader2 } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { addFriendValidator } from "@/lib/validations/add-friend";
 import { z } from "zod";
@@ -16,10 +17,15 @@ export default function FriendRequestActionButton({
   setFriendRequestSent,
   friendEmail,
 }: FriendRequestActionButtonProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleCancelRequest = async () => {
+    setIsLoading(true);
     try {
       const validatedEmail = addFriendValidator.parse({ email: friendEmail });
       await axios.post("/api/friends/cancel-add", { email: validatedEmail });
+
+      setIsLoading(false);
       setFriendRequestSent(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -40,7 +46,13 @@ export default function FriendRequestActionButton({
         size="sm"
         variant="ghost"
       >
-        Request sent <CheckCheck className="w-3 h-3" />
+        {isLoading ? (
+          <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
+        ) : (
+          <>
+            Request sent <Check className="w-4 h-4" />
+          </>
+        )}
       </Button>
       <Button
         className={cn("group-hover:flex hidden w-full gap-2")}
