@@ -12,9 +12,9 @@ import { defaultProfiles } from "@/lib/constant";
 import Fighter from "@/components/fighter";
 
 const Page = () => {
-  async function loginWithGoogle() {
+  async function loginWithProvider(provider: "google" | "discord") {
     try {
-      await signIn("google");
+      await signIn(provider);
     } catch (error) {
       toast.error("Something went wrong with your login");
     }
@@ -49,7 +49,7 @@ const Page = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <Button
-              onClick={loginWithGoogle}
+              onClick={() => loginWithProvider("discord")}
               variant="outline"
               className="grow space-x-3"
             >
@@ -64,7 +64,7 @@ const Page = () => {
               <span>Sign in with Discord</span>
             </Button>
             <Button
-              onClick={loginWithGoogle}
+              onClick={() => loginWithProvider("google")}
               variant="outline"
               className="grow space-x-3"
             >

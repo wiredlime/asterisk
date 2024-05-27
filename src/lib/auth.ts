@@ -2,18 +2,26 @@ import { NextAuthOptions } from "next-auth";
 import { db } from "./db";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import GoogleProvider from "next-auth/providers/google";
+import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { fetchRedis } from "@/helpers/redis";
 
-function getGoogleCredentials() {
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+function getCredentials(provider: "google" | "discord") {
+  let clientId: string | undefined;
+  let clientSecret: string | undefined;
+  if (provider === "google") {
+    clientId = process.env.GOOGLE_CLIENT_ID;
+    clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  } else if (provider === "discord") {
+    clientId = process.env.DISCORD_CLIENT_ID;
+    clientSecret = process.env.DISCORD_CLIENT_SECRET;
+  }
 
   if (!clientId || clientId.length === 0) {
-    throw new Error("Missing GOOGLE_CLIENT_ID");
+    throw new Error(`Missing ${provider.toUpperCase()}_CLIENT_ID`);
   }
   if (!clientSecret || clientSecret.length === 0) {
-    throw new Error("Missing GOOGLE_CLIENT_SECRET");
+    throw new Error(`Missing ${provider.toUpperCase()}_CLIENT_SECRET`);
   }
 
   return {
@@ -31,8 +39,12 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     GoogleProvider({
-      clientId: getGoogleCredentials().clientId,
-      clientSecret: getGoogleCredentials().clientSecret,
+      clientId: getCredentials("google").clientId,
+      clientSecret: getCredentials("google").clientSecret,
+    }),
+    DiscordProvider({
+      clientId: getCredentials("discord").clientId,
+      clientSecret: getCredentials("discord").clientSecret,
     }),
     CredentialsProvider(
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -111,8 +123,8 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     // A callback to call after user is verified
-    // redirect() {
-    // return "/dashboard";
-    // },
+    redirect() {
+      return "/dashboard";
+    },
   },
 };

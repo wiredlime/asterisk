@@ -28,9 +28,9 @@ export default withAuth(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    if (pathname === "/") {
-      return NextResponse.redirect(new URL("/dashboard/chat", req.url));
-    }
+    // if (pathname === "/") {
+    //   return NextResponse.redirect(new URL("/dashboard/chat", req.url));
+    // }
   },
   {
     callbacks: {
