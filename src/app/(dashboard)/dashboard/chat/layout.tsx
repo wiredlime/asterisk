@@ -1,19 +1,14 @@
 import ChatList, { ActiveChat } from "@/components/chat-list";
-import ChatListSidebar from "@/components/chat-list-sidebar";
-import NewMessageForm from "@/components/new-message-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { chatHrefConstructor } from "@/lib/utils";
 import { Message } from "@/lib/validations/message";
 
-import { Search, SquarePen } from "lucide-react";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode } from "react";
 
 type LayoutProps = {
   children: ReactNode;
