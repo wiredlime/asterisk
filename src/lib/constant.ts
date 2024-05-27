@@ -32,4 +32,8 @@ const generateProfiles = () => {
 
   return profiles;
 };
+
+export const AVATAR_FALLBACK =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88/ZfPQAI/ANY/TnuUAAAAABJRU5ErkJggg==";
+
 export const allProfiles = generateProfiles();

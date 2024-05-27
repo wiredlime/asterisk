@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Image, { ImageProps } from "next/image";
 import React from "react";
+import { AVATAR_FALLBACK } from "@/lib/constant";
 
 interface NextAvatarProps extends ImageProps {
   size?: number;
@@ -16,10 +17,9 @@ export default function NextAvatar({
   return (
     <div
       className={cn(
-        "relative bg-muted-foreground/10 rounded-full",
+        "relative rounded-full",
         `w-${size}`,
         `h-${size}`,
-
         className
       )}
     >
@@ -29,6 +29,8 @@ export default function NextAvatar({
         fill
         className={cn("rounded-full", className)}
         alt={alt}
+        placeholder="blur"
+        blurDataURL={AVATAR_FALLBACK}
         {...props}
       />
     </div>
