@@ -98,7 +98,7 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
             className="rounded-full hover:bg-accent/70 "
           >
             {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
             ) : (
               <SendHorizonal className="rounded-full " />
             )}

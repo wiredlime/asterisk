@@ -35,7 +35,7 @@ const SignOutButton = ({
       {...props}
     >
       {isSigningOut ? (
-        <Loader2 className="animate-spin h-4 w-4" />
+        <Loader2 className="text-muted-foreground animate-spin h-4 w-4" />
       ) : (
         <LogOut className="h-4 w-4" />
       )}

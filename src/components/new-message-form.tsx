@@ -202,7 +202,7 @@ export default function NewMessageForm({
 
           <Button size="sm" onClick={sendMessage}>
             {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
             ) : (
               "Send message"
             )}
