@@ -1,15 +1,14 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import NextAvatar from "./ui/next-avatar";
 import NewMessageForm from "./new-message-form";
 import FriendActionButton from "./friend-action-button";
 import { Input } from "./ui/input";
-import { Loader2, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { da } from "@faker-js/faker";
 
 export const SearchFriendFormSchema = z.object({
   name: z.string(),
@@ -22,8 +21,6 @@ type FriendListProps = {
   sessionId: string;
 };
 
-// render lists
-// form to filter list
 function FriendList({ friends, sessionId }: FriendListProps) {
   const [filteredFriends, setFilteredFriends] = useState(friends);
   const { register, handleSubmit } = useForm<SearchFriendFormData>({

@@ -7,7 +7,7 @@ import FriendRequestSidebarOption from "./friend-request-sidebar-option";
 import { SidebarOption } from "@/types/typings";
 import { Session } from "next-auth";
 import { UserInfoBox } from "./user-info-box";
-import { Asterisk, Earth, LampDesk, Send } from "lucide-react";
+import { Asterisk, Send } from "lucide-react";
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -51,11 +51,7 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
                     href={option.href}
                     className=" text-gray-700 hover:text-indigo-600  flex items-center group gap-5 rounded-md text-sm leading-6"
                   >
-                    {/* <span className="text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"> */}
-
                     <Icon className="h-5 w-5 shrink-0" />
-                    {/* </span> */}
-
                     <span className="truncate font-medium">{option.name}</span>
                   </Link>
                 </li>

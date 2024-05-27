@@ -2,10 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
-import React, { useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import SignUpStepper from "@/components/sign-up-stepper";
 import { defaultProfiles } from "@/lib/constant";
@@ -81,7 +80,7 @@ const Page = () => {
         </div>
         <Separator orientation="vertical" className="h-40" />
         <div className="space-y-10">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-5">
             {defaultProfiles.map((profile) => (
               <Fighter
                 key={profile.name}
