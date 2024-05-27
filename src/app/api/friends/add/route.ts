@@ -76,7 +76,7 @@ export async function POST(req: Request) {
       }
     );
     // Add to database
-    db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id); // add perform use id to the incoming_friend_requests list of target user
+    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id); // add perform use id to the incoming_friend_requests list of target user
     return new Response("OK", { status: 200 });
   } catch (error) {
     console.log(error);

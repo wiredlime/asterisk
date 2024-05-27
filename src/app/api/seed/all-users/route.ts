@@ -6,11 +6,11 @@ export async function GET(req: Request) {
   // SEED ALL USERS
 
   await Promise.all(
-    allProfiles.map((profile) => {
+    allProfiles.map(async (profile) => {
       // Write user account to database
       const id = nanoid();
-      db.set(`user:email:${profile.email}`, id);
-      db.set(`user:${id}`, {
+      await db.set(`user:email:${profile.email}`, id);
+      await db.set(`user:${id}`, {
         name: profile.name,
         image: profile.image,
         email: profile.email,
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
       });
 
       // Write to users set
-      db.sadd(`users`, {
+      await db.sadd(`users`, {
         name: profile.name,
         image: profile.image,
         email: profile.email,

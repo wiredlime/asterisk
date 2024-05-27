@@ -27,10 +27,6 @@ export async function POST(request: Request) {
       id,
     });
 
-    // Query again
-
-    const checkWrites = await db.exists(`user:email:${email}`);
-    console.log(checkWrites);
     return new Response("OK", { status: 200 });
   } catch (e) {
     console.log({ e });
