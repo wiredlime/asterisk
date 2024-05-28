@@ -18,7 +18,7 @@ export default withAuth(
     // If user at login page, check for authentication and redirect accordingly
     if (isLoginPage) {
       if (isAuth) {
-        return NextResponse.redirect(new URL("/dashboard/add", req.url));
+        return NextResponse.redirect(new URL("/dashboard/explore", req.url));
       }
 
       return NextResponse.next();
@@ -28,9 +28,9 @@ export default withAuth(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    // if (pathname === "/") {
-    //   return NextResponse.redirect(new URL("/dashboard/chat", req.url));
-    // }
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
   },
   {
     callbacks: {
