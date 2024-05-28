@@ -56,7 +56,7 @@ function FriendRequestSidebarOption({
 
   return (
     <Link
-      href="/dashboard/add"
+      href="/dashboard/friends"
       className="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex items-center gap-5 rounded-md text-sm leading-6"
     >
       <Users className="h-5 w-5 shrink-0" />
