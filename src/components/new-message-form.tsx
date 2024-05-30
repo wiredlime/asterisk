@@ -56,14 +56,18 @@ export default function NewMessageForm({
   const sendMessage = async () => {
     if (!input.length) return;
     setIsLoading(true);
+    console.log(sessionId, chatPartner?.id, input);
     try {
-      await axios.post(`/api/message/send`, { text: input, chatId });
+      await axios.post(`/api/message/send`, {
+        text: input,
+        chatId: chatHrefConstructor(sessionId, chatPartner?.id || ""),
+      });
       // reset and refocus after send message
       setInput("");
       textareaRef.current?.focus();
       setIsSent(true);
     } catch (error) {
-      toast.error("Something went wrong. Please try again later.");
+      toast.error("Something went wrong. Please try again later!");
     } finally {
       setIsLoading(false);
     }
@@ -89,11 +93,19 @@ export default function NewMessageForm({
     }));
   }, [friends]);
 
+  console.log(friends, friendAsMentionItem);
+
   useEffect(() => {
+    // Cursor placement
     if (textareaRef.current) {
       textareaRef.current.selectionEnd = cursorPosition;
     }
-  }, [cursorPosition]);
+    // Set recipient
+    setRecipient({
+      id: defaultChatPartner?.email || "",
+      display: defaultChatPartner?.name || "",
+    });
+  }, [cursorPosition, defaultChatPartner?.email, defaultChatPartner?.name]);
 
   if (isSent) {
     return (
