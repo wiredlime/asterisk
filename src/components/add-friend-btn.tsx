@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "./ui/button";
+import React, { useMemo, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { addFriendValidator } from "@/lib/validations/add-friend";
 import { z } from "zod";
@@ -33,6 +32,7 @@ function AddFriendButton({}: AddFriendButtonProps) {
       setIsLoading(false);
       setShowSuccess(true);
     } catch (error) {
+      setIsLoading(false);
       // either toast general error or check for error type and handle separately
       if (error instanceof z.ZodError) {
         setError("email", { message: error.message });
@@ -51,6 +51,20 @@ function AddFriendButton({}: AddFriendButtonProps) {
     addFriend(data.email);
   };
 
+  const formStateIndicator = useMemo(() => {
+    if (isLoading) {
+      return <Loader2 className="text-muted-foreground w-4 h-5 animate-spin" />;
+    } else if (showSuccess) {
+      return (
+        <div className="gap-2 flex items-center">
+          Sent
+          <Check className="w-3 h-3" />
+        </div>
+      );
+    }
+    return null;
+  }, [isLoading, showSuccess]);
+
   return (
     <form
       className="relative grow max-w-sm flex flex-col"
@@ -61,20 +75,15 @@ function AddFriendButton({}: AddFriendButtonProps) {
           type="text"
           placeholder="friend@example.com"
           {...register("email")}
-          onKeyDown={() => setShowSuccess(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              addFriend(e.currentTarget.value);
+            }
+            setShowSuccess(false);
+          }}
+          endAdornment={formStateIndicator}
         />
-        <Button type="submit" size="sm">
-          {isLoading ? (
-            <Loader2 className="text-muted-foreground w-4 h-5 animate-spin" />
-          ) : showSuccess ? (
-            <div className="gap-2 flex items-center">
-              Sent
-              <Check className="w-3 h-3" />
-            </div>
-          ) : (
-            "Add friend"
-          )}
-        </Button>
       </div>
 
       <p className="absolute text-xs text-muted-foreground -bottom-5 ml-2">

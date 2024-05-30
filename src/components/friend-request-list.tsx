@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Button } from "./ui/button";
-import { Check, UserCheck, X } from "lucide-react";
-import NextAvatar from "./ui/next-avatar";
+import { Check, Loader2, X } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { pusherClient } from "@/lib/pusher";
@@ -22,6 +20,7 @@ export default function FriendRequestList({
   sessionId,
 }: FriendRequestListProps) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<"accept" | "deny" | null>(null);
   const [incomingRequests, setIncomingRequests] = useState(requests);
 
   // Listen to the event on the client:
@@ -64,12 +63,18 @@ export default function FriendRequestList({
       senderId: string,
       action: "accept" | "deny"
     ) => {
-      await axios.post(`/api/friends/${action}`, { id: senderId });
-      // Filter out with state to make interactive UI
-      setIncomingRequests((prev) =>
-        prev.filter((request) => request.senderId !== senderId)
-      );
-      router.refresh();
+      setIsLoading(action);
+      try {
+        await axios.post(`/api/friends/${action}`, { id: senderId });
+        // Filter out with state to make interactive UI
+        setIncomingRequests((prev) =>
+          prev.filter((request) => request.senderId !== senderId)
+        );
+        setIsLoading(null);
+        // router.refresh();
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     if (incomingRequests.length > 0) {
@@ -89,7 +94,11 @@ export default function FriendRequestList({
               className="hover:cursor-pointer"
               onClick={() => handleRequestActions(request.senderId, "accept")}
             >
-              <Check className="w-4 h-4" />
+              {isLoading === "accept" ? (
+                <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+              ) : (
+                <Check className="w-4 h-4" />
+              )}
             </Badge>
 
             <Badge
@@ -97,7 +106,11 @@ export default function FriendRequestList({
               variant="outline"
               onClick={() => handleRequestActions(request.senderId, "deny")}
             >
-              <X className="w-4 h-4" />
+              {isLoading === "deny" ? (
+                <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+              ) : (
+                <X className="w-4 h-4" />
+              )}
             </Badge>
           </div>
         </div>
@@ -109,7 +122,7 @@ export default function FriendRequestList({
         No incoming requests
       </div>
     );
-  }, [incomingRequests, router]);
+  }, [incomingRequests, isLoading, router]);
 
   return (
     <div className="flex flex-col">
