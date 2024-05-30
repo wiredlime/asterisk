@@ -16,15 +16,16 @@ export const UserInfoBox = ({
   ...props
 }: UserInfoBoxProps) => {
   return (
-    <div className={cn("flex gap-3 w-full", className)} {...props}>
-      <div className="flex-shrink-0">
-        <NextAvatar src={image} alt="My profile image" size={10} />
-      </div>
-      <div>
+    <div className={cn("w-full flex gap-3", className)} {...props}>
+      <NextAvatar
+        src={image}
+        alt="My profile image"
+        size={10}
+        className="shrink-0"
+      />
+      <div className="w-full">
         <p className="truncate text-sm font-semibold">{name}</p>
-        <p className="max-w-sm text-xs text-muted-foreground truncate">
-          {email}
-        </p>
+        <p className="text-xs text-muted-foreground truncate">{email}</p>
       </div>
     </div>
   );

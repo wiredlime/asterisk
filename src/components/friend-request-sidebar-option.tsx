@@ -18,7 +18,7 @@ function FriendRequestSidebarOption({
     initialUnseenRequestCount
   );
 
-  const requests = useMemo(() => {
+  const requestCount = useMemo(() => {
     if (unseenRequestCount > 0) {
       return (
         <div className="rounded-full font-medium text-xs w-5 h-5 flex justify-center items-center bg-primary text-primary-foreground">
@@ -57,11 +57,16 @@ function FriendRequestSidebarOption({
   return (
     <Link
       href="/dashboard/friends"
-      className="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex items-center gap-5 rounded-md text-sm leading-6"
+      className="w-full text-gray-700 hover:text-indigo-600 hover:bg-gray-50 text-sm leading-6"
+      onClick={() => setUnseenRequestCount(0)}
     >
-      <Users className="h-5 w-5 shrink-0" />
-      <span className="truncate font-medium">New friends</span>
-      {requests}
+      <div className="w-full flex gap-5 justify-center @[10rem]/sidebar:justify-start @[10rem]/sidebar:items-center">
+        <Users className="h-5 w-5 shrink-0" />
+        <span className="truncate font-medium hidden @[10rem]/sidebar:block">
+          New friends
+        </span>
+      </div>
+      {requestCount}
     </Link>
   );
 }

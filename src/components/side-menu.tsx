@@ -6,18 +6,13 @@ import { Icons } from "./icons";
 import FriendRequestSidebarOption from "./friend-request-sidebar-option";
 import { SidebarOption } from "@/types/typings";
 import { Session } from "next-auth";
-import { UserInfoBox } from "./user-info-box";
 import { Asterisk, Send } from "lucide-react";
+import ChatSidebarOption from "./chat-sidebar-option";
+import NextAvatar from "./ui/next-avatar";
 
 const sidebarOptions: SidebarOption[] = [
   {
     id: 1,
-    name: "Messages",
-    href: "/dashboard/chat",
-    Icon: "MessageCircleMore",
-  },
-  {
-    id: 2,
     name: "All friends",
     href: "/dashboard/explore",
     Icon: "UserPlus",
@@ -30,11 +25,11 @@ export interface SideMenuProps {
 }
 export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
   return (
-    <div className="bg-accent/20 h-full flex flex-col justify-between">
+    <div className="@container/sidebar w-full bg-accent/20 h-full flex flex-col justify-between">
       <div className="h-20 border-b p-4 bg-primary flex items-center justify-center">
-        <Link href="/dashboard/friends" className="flex gap-2">
-          <Send className="h-10 text-primary-foreground" />
-          <Asterisk className="h-10 text-primary-foreground" />
+        <Link href="/dashboard" className="flex">
+          <Send className="w-5 h-5 text-primary-foreground" />
+          <Asterisk className="w-5 h-5 text-primary-foreground" />
         </Link>
       </div>
       <div className="grow">
@@ -45,18 +40,23 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
               return (
                 <li
                   key={option.id}
-                  className="border-b px-5 p-4 hover:bg-gray-50"
+                  className="border-b px-5 p-4 hover:bg-gray-50 flex justify-center @[10rem]/sidebar:block"
                 >
                   <Link
                     href={option.href}
-                    className=" text-gray-700 hover:text-indigo-600  flex items-center group gap-5 rounded-md text-sm leading-6"
+                    className="text-gray-700 hover:text-indigo-600 flex items-center group gap-5 rounded-md text-sm leading-6"
                   >
                     <Icon className="h-5 w-5 shrink-0" />
-                    <span className="truncate font-medium">{option.name}</span>
+                    <span className="truncate font-medium hidden @[10rem]/sidebar:block">
+                      {option.name}
+                    </span>
                   </Link>
                 </li>
               );
             })}
+            <li className="border-b px-5 p-4 hover:bg-gray-50">
+              <ChatSidebarOption />
+            </li>
             <li className="border-b px-5 p-4 hover:bg-gray-50">
               <FriendRequestSidebarOption
                 sessionId={session?.user.id || ""}
@@ -66,13 +66,24 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
           </ul>
         </div>
       </div>
-      <div className="flex items-center justify-between p-4">
-        <UserInfoBox
-          image={session?.user.image || ""}
-          name={session?.user.name || ""}
-          email={session?.user.email || ""}
-        />
-        <SignOutButton size="sm" />
+      <div className="@container/footer flex flex-col gap-5 @[10rem]/sidebar:flex-row @[10rem]/sidebar:items-center @[10rem]/sidebar:justify-between p-4">
+        <div className="flex items-center gap-3">
+          <NextAvatar
+            src={session?.user.image || ""}
+            alt="My profile image"
+            size={10}
+            className="shrink-0"
+          />
+          <div className="hidden @[10rem]/footer:block">
+            <p className="truncate text-sm font-semibold">
+              {session?.user.name}
+            </p>
+            <p className="text-xs text-muted-foreground truncate">
+              {session?.user.email}
+            </p>
+          </div>
+        </div>
+        <SignOutButton size="sm" variant="outline" className="w-fit" />
       </div>
     </div>
   );

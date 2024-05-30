@@ -38,13 +38,13 @@ const Layout = async ({ children }: LayoutProps) => {
       </div>
       <div className="hidden md:flex min-h-screen w-full">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel className="h-screen" defaultSize={20}>
+          <ResizablePanel className="h-screen min-w-[72px]" defaultSize={20}>
             <SideMenu
               session={session}
               unseenRequestCount={unseenRequestCount}
             />
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle withHandle />
           <ResizablePanel className="max-h-screen" defaultSize={80}>
             {children}
           </ResizablePanel>
