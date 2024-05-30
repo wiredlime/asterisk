@@ -25,6 +25,7 @@ export async function POST(req: Request) {
 
     // 3. Remove the userId id user:id:friends set
     await db.srem(`user:${session.user.id}:friends`, idToUnfriend);
+    await db.srem(`user:${idToUnfriend}:friends`, session.user.id);
 
     return new Response(`OK`);
   } catch (error) {
