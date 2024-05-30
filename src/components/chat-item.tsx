@@ -1,8 +1,7 @@
 "use client";
-
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import NextAvatar from "./ui/next-avatar";
 import { usePathname } from "next/navigation";
 import { Message } from "@/lib/validations/message";
@@ -26,26 +25,34 @@ export default function ChatItem({
   lastMessageText,
   isLastMessageAuthor,
   isNewConversation = false,
-  unseenMessages,
+  unseenMessages: initialUnseenMessages,
 }: ChatItemProps) {
   const pathname = usePathname();
+  const [showUnseenMessages, setShowUnseenMessages] = useState(true);
 
   const isSelected = useMemo(() => {
     return pathname?.includes(chatId);
   }, [chatId, pathname]);
 
   const lastUnseenMessage = useMemo(() => {
-    if (unseenMessages && unseenMessages.length) {
-      return unseenMessages[unseenMessages.length - 1];
+    if (initialUnseenMessages && initialUnseenMessages.length) {
+      return initialUnseenMessages[initialUnseenMessages.length - 1];
     }
-  }, [unseenMessages]);
+  }, [initialUnseenMessages]);
+
+  useEffect(() => {
+    const shouldNotify = pathname !== `/dashboard/chat/${chatId}`;
+    setShowUnseenMessages(shouldNotify);
+  }, [chatId, pathname]);
+
   return (
     <div
       key={chatId}
       className={cn("w-full p-3 hover:bg-accent/80", {
-        "bg-accent/40": isNewConversation || unseenMessages?.length,
+        "bg-accent/40": isNewConversation || showUnseenMessages,
         "bg-accent/80": isSelected,
       })}
+      onClick={() => setShowUnseenMessages(false)}
     >
       <Link
         href={`/dashboard/chat/${chatId}`}
@@ -69,11 +76,9 @@ export default function ChatItem({
             )}
           </div>
           {lastUnseenMessage ? (
-            <p className="text-sm max-w-44 truncate">
-              {lastUnseenMessage.text}
-            </p>
+            <p className="text-sm w-5/6 truncate">{lastUnseenMessage.text}</p>
           ) : (
-            <p className="text-sm max-w-44 truncate">
+            <p className="text-sm w-5/6 truncate">
               <span className="text-muted-foreground">
                 {isLastMessageAuthor ? "You: " : ""}
               </span>
@@ -81,9 +86,11 @@ export default function ChatItem({
             </p>
           )}
 
-          {unseenMessages && unseenMessages.length > 0 ? (
+          {showUnseenMessages &&
+          initialUnseenMessages &&
+          initialUnseenMessages?.length > 0 ? (
             <div className="absolute right-0 bottom-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex justify-center items-center text-xs">
-              {unseenMessages.length}
+              {initialUnseenMessages.length}
             </div>
           ) : null}
         </div>
