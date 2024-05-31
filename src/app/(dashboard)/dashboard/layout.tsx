@@ -6,7 +6,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -28,7 +27,7 @@ const Layout = async ({ children }: LayoutProps) => {
   )) as User[];
 
   return (
-    <div className="w-full flex h-screen overflow-y-hidden">
+    <div className="w-full flex h-screen overflow-y-hidden bg-background">
       <div className="md:hidden w-full">
         <MobileChatLayout
           session={session}
@@ -45,7 +44,7 @@ const Layout = async ({ children }: LayoutProps) => {
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel className="max-h-screen" defaultSize={80}>
+          <ResizablePanel className="h-screen" defaultSize={80}>
             {children}
           </ResizablePanel>
         </ResizablePanelGroup>

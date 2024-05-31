@@ -49,8 +49,8 @@ export default function ChatItem({
     <div
       key={chatId}
       className={cn("w-full p-3 hover:bg-accent/80", {
-        "bg-accent/40": isNewConversation || showUnseenMessages,
-        "bg-accent/80": isSelected,
+        "bg-accent/80": isNewConversation || showUnseenMessages,
+        "bg-accent/40": isSelected,
       })}
       onClick={() => setShowUnseenMessages(false)}
     >
@@ -68,7 +68,9 @@ export default function ChatItem({
 
         <div className="grow">
           <div className="flex items-center justify-between">
-            <p className="text-base font-semibold">{friendName}</p>
+            <p className="text-base font-semibold text-foreground">
+              {friendName}
+            </p>
             {lastMessageTimestamp && (
               <p className="text-xs text-muted-foreground">
                 {lastMessageTimestamp}
@@ -76,9 +78,11 @@ export default function ChatItem({
             )}
           </div>
           {lastUnseenMessage ? (
-            <p className="text-sm w-5/6 truncate">{lastUnseenMessage.text}</p>
+            <p className="text-sm w-5/6 truncate text-accent-foreground">
+              {lastUnseenMessage.text}
+            </p>
           ) : (
-            <p className="text-sm w-5/6 truncate">
+            <p className="text-sm w-5/6 truncate text-accent-foreground">
               <span className="text-muted-foreground">
                 {isLastMessageAuthor ? "You: " : ""}
               </span>
@@ -89,7 +93,7 @@ export default function ChatItem({
           {showUnseenMessages &&
           initialUnseenMessages &&
           initialUnseenMessages?.length > 0 ? (
-            <div className="absolute right-0 bottom-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex justify-center items-center text-xs">
+            <div className="absolute right-0 bottom-0 w-5 h-5 rounded-full dark:bg-accent dark:text-accent-foreground bg-primary text-primary-foreground flex justify-center items-center text-xs">
               {initialUnseenMessages.length}
             </div>
           ) : null}

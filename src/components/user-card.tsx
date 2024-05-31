@@ -16,7 +16,7 @@ type UserCardProps = {
 
 const UserCard = ({ isFriend, name, email, image }: UserCardProps) => {
   return (
-    <Card className="px-4 pb-4 pt-8 relative min-w-[223px] hover:cursor-pointer hover:shadow-md h-fit shrink-0 grow-0 flex flex-col items-center gap-2 rounded-xl">
+    <Card className="gay:bg-background px-4 pb-4 pt-8 relative min-w-[223px] hover:cursor-pointer hover:shadow-md h-fit shrink-0 grow-0 flex flex-col items-center gap-2 rounded-xl">
       <div
         className="absolute top-0 h-1/3 w-full rounded-t-xl flex justify-center bg-accent"
         style={{
@@ -38,7 +38,9 @@ const UserCard = ({ isFriend, name, email, image }: UserCardProps) => {
 
       <CardContent className="p-0">
         <div className="w-full flex flex-col items-center">
-          <h4 className="text-sm font-medium leading-none">{name}</h4>
+          <h4 className="text-sm font-medium text-foreground leading-none">
+            {name}
+          </h4>
           <p className="text-xs text-muted-foreground">{email}</p>
         </div>
         <Separator className="my-2" />

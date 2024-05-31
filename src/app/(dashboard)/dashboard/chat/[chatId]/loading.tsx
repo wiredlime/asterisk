@@ -24,14 +24,14 @@ const loading: FC<loadingProps> = ({}) => {
                 <div className="grid grid-cols-12 gap-y-1">
                   <div className="col-start-6 col-end-13 rounded-lg">
                     <div className="flex items-center justify-start flex-row-reverse">
-                      <div className="relative mr-2 text-sm bg-primary/10 text-black p-2 border border-gray-100 rounded-xl">
+                      <div className="relative mr-2 text-sm bg-primary/10 text-black p-2 border border-border rounded-xl">
                         <Skeleton className=" w-[450px] h-[100px]" />
                       </div>
                     </div>
                   </div>
                   <div className="col-start-6 col-end-13 rounded-lg">
                     <div className="flex items-center justify-start flex-row-reverse">
-                      <div className="relative mr-2 text-sm bg-primary/10 text-black p-2 border border-gray-100 rounded-xl">
+                      <div className="relative mr-2 text-sm bg-primary/10 text-black p-2 border border-border rounded-xl">
                         <Skeleton className=" w-[150px] h-[20px]" />
                       </div>
                     </div>
@@ -43,14 +43,14 @@ const loading: FC<loadingProps> = ({}) => {
                       <div className="relative h-10 w-10">
                         <Skeleton className="w-[40px] h-[40px] rounded-full" />
                       </div>
-                      <div className="relative ml-3 text-sm bg-background/20 p-2 border border-gray-100 rounded-xl">
+                      <div className="relative ml-3 text-sm bg-background/20 p-2 border border-border rounded-xl">
                         <Skeleton className=" w-[150px] h-[20px]" />
                       </div>
                     </div>
                   </div>
                   <div className="col-start-6 col-end-13 rounded-lg">
                     <div className="flex items-center justify-start flex-row-reverse">
-                      <div className="relative mr-2 text-sm bg-primary/10 text-black p-2 border border-gray-100 rounded-xl">
+                      <div className="relative mr-2 text-sm bg-primary/10 text-black p-2 border border-border rounded-xl">
                         <Skeleton className=" w-[70px] h-[20px]" />
                       </div>
                     </div>
@@ -60,7 +60,7 @@ const loading: FC<loadingProps> = ({}) => {
                       <div className="relative h-10 w-10">
                         <Skeleton className="w-[40px] h-[40px] rounded-full" />
                       </div>
-                      <div className="relative ml-3 text-sm bg-background/20 p-2 border border-gray-100 rounded-xl">
+                      <div className="relative ml-3 text-sm bg-background/20 p-2 border border-border rounded-xl">
                         <Skeleton className=" w-[350px] h-[120px]" />
                       </div>
                     </div>

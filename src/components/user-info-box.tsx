@@ -24,7 +24,7 @@ export const UserInfoBox = ({
         className="shrink-0"
       />
       <div className="w-full">
-        <p className="truncate text-sm font-semibold">{name}</p>
+        <p className="truncate text-sm font-semibold text-foreground">{name}</p>
         <p className="text-xs text-muted-foreground truncate">{email}</p>
       </div>
     </div>

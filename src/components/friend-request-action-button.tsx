@@ -42,7 +42,9 @@ export default function FriendRequestActionButton({
   return (
     <div className="group w-full">
       <Button
-        className={cn("group-hover:hidden w-full gap-2")}
+        className={cn(
+          "group-hover:hidden w-full gap-2 text-foreground dark:border"
+        )}
         size="sm"
         variant="ghost"
       >
@@ -55,7 +57,9 @@ export default function FriendRequestActionButton({
         )}
       </Button>
       <Button
-        className={cn("group-hover:flex hidden w-full gap-2")}
+        className={cn(
+          "group-hover:flex hidden w-full gap-2 text-foreground dark:border"
+        )}
         size="sm"
         variant="secondary"
         onClick={handleCancelRequest}

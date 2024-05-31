@@ -54,7 +54,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="flex-1 justify-between flex flex-col h-full max-h-[calc(100vh)]">
-      <div className="flex h-20 sm:items-center justify-between p-2 px-4 border-b border-gray-200">
+      <div className="flex h-20 sm:items-center justify-between p-2 px-4 border-b border-border">
         <div className="relative flex items-center gap-4">
           <NextAvatar
             fill
@@ -66,12 +66,14 @@ export default async function Page({ params }: PageProps) {
 
           <div className="flex flex-col leading-tight">
             <div className="text-base flex items-center">
-              <span className="text-gray-700 mr-3 font-semibold">
+              <span className="text-primary mr-3 font-semibold">
                 {partner.name}
               </span>
             </div>
 
-            <span className="text-xs text-gray-600">{partner.email}</span>
+            <span className="text-muted-foreground text-xs text-gray-600">
+              {partner.email}
+            </span>
           </div>
         </div>
       </div>

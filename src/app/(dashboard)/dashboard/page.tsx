@@ -4,9 +4,9 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div className="relative h-screen w-full grid place-items-center">
+    <div className="relative bg-background h-screen w-full grid place-items-center">
       <div
-        className="absolute bottom-36 left-36 w-[40px] h-[40px] rounded-full"
+        className="absolute bottom-36 left-36 w-[40px] h-[40px] dark:blur-sm rounded-full"
         style={{
           background:
             "radial-gradient(circle at 18.7% 37.8%, rgb(250, 250, 250) 0%, rgb(225, 234, 238) 90%)",
@@ -20,7 +20,9 @@ const Page = () => {
         }}
       ></div>
       <div className="h-screen w-full grid place-items-center p-10">
-        <h2 className="font-bold drop-shadow-lg animate-pulse">Asterisk</h2>
+        <h2 className="font-bold drop-shadow-lg animate-pulse text-foreground">
+          Asterisk
+        </h2>
       </div>
     </div>
   );

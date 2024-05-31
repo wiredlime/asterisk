@@ -1,13 +1,7 @@
-import FriendActionButton from "@/components/friend-action-button";
 import FriendList from "@/components/friend-list";
-import NewMessageForm from "@/components/new-message-form";
-import { Button } from "@/components/ui/button";
 import HeaderSection from "@/components/ui/header-section";
-import { Input } from "@/components/ui/input";
-import NextAvatar from "@/components/ui/next-avatar";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
-import { Search } from "lucide-react";
 import { getServerSession } from "next-auth";
 import React from "react";
 
@@ -29,7 +23,7 @@ export default async function page({}: Props) {
   );
 
   return (
-    <div>
+    <main className=" h-full">
       <div className="p-4 border-b h-20 flex items-center gap-5 justify-between">
         <HeaderSection
           header="Yours truly"
@@ -37,6 +31,6 @@ export default async function page({}: Props) {
         />
       </div>
       <FriendList friends={friends} sessionId={session?.user.id || ""} />
-    </div>
+    </main>
   );
 }

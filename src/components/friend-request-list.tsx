@@ -91,18 +91,18 @@ export default function FriendRequestList({
 
           <div className="flex items-center gap-2">
             <Badge
-              className="hover:cursor-pointer"
+              className="bg-foreground gay:bg-transparent gay:border-border hover:cursor-pointer"
               onClick={() => handleRequestActions(request.senderId, "accept")}
             >
               {isLoading === "accept" ? (
                 <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
               ) : (
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4 text-foreground" />
               )}
             </Badge>
 
             <Badge
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer gay:border-none"
               variant="outline"
               onClick={() => handleRequestActions(request.senderId, "deny")}
             >

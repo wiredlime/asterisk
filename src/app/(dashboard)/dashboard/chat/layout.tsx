@@ -42,7 +42,7 @@ export default async function Layout({ children }: LayoutProps) {
   );
 
   return (
-    <div className="h-full grid grid-cols-[4fr_8fr]">
+    <div className=" h-full grid grid-cols-[4fr_8fr]">
       <div className="h-full border-r">
         <ChatList
           friends={friends}

@@ -9,6 +9,9 @@ import { Session } from "next-auth";
 import { Asterisk, Send } from "lucide-react";
 import ChatSidebarOption from "./chat-sidebar-option";
 import NextAvatar from "./ui/next-avatar";
+import ThemeSettingSidebarOption from "./theme-setting-sidebar-option";
+import AboutMeSidebarOption from "./about-me-sidebar-option";
+import AboutProjectSidebarOption from "./about-project-sidebar-option";
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -25,14 +28,14 @@ export interface SideMenuProps {
 }
 export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
   return (
-    <div className="@container/sidebar w-full bg-accent/20 h-full flex flex-col justify-between">
-      <div className="h-20 border-b p-4 bg-primary flex items-center justify-center">
+    <div className="@container/sidebar dark:bg-background midnight:bg-background gay:bg-background/15 bg-accent/30 w-full h-full flex flex-col justify-between">
+      <div className="h-20 border-b p-4 bg-primary bg-gay dark:bg-background midnight:bg-background flex items-center justify-center">
         <Link href="/dashboard" className="flex">
-          <Send className="w-5 h-5 text-primary-foreground" />
-          <Asterisk className="w-5 h-5 text-primary-foreground" />
+          <Send className="w-5 h-5 text-primary-foreground midnight:text-muted-foreground dark:text-muted-foreground" />
+          <Asterisk className="w-5 h-5 text-primary-foreground midnight:text-muted-foreground dark:text-muted-foreground" />
         </Link>
       </div>
-      <div className="grow">
+      <div className="grow ">
         <div className="h-full">
           <ul role="list" className="h-full list-none">
             {sidebarOptions.map((option) => {
@@ -40,24 +43,24 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
               return (
                 <li
                   key={option.id}
-                  className="border-b px-5 p-4 hover:bg-gray-50 flex justify-center @[10rem]/sidebar:block"
+                  className="border-b p-4 px-5 hover:bg-accent flex justify-center @[10rem]/sidebar:block"
                 >
                   <Link
                     href={option.href}
-                    className="text-gray-700 hover:text-indigo-600 flex items-center group gap-5 rounded-md text-sm leading-6"
+                    className="flex items-center group gap-5 rounded-md text-sm leading-6"
                   >
-                    <Icon className="h-5 w-5 shrink-0" />
-                    <span className="truncate font-medium hidden @[10rem]/sidebar:block">
+                    <Icon className="h-5 w-5 shrink-0 text-secondary-foreground" />
+                    <span className="truncate font-medium text-secondary-foreground hidden @[10rem]/sidebar:block">
                       {option.name}
                     </span>
                   </Link>
                 </li>
               );
             })}
-            <li className="border-b px-5 p-4 hover:bg-gray-50">
+            <li className="border-b p-4 px-5 hover:bg-accent">
               <ChatSidebarOption />
             </li>
-            <li className="border-b px-5 p-4 hover:bg-gray-50">
+            <li className="border-b p-4 px-5 hover:bg-accent">
               <FriendRequestSidebarOption
                 sessionId={session?.user.id || ""}
                 initialUnseenRequestCount={unseenRequestCount.length}
@@ -66,7 +69,12 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
           </ul>
         </div>
       </div>
-      <div className="@container/footer flex flex-col gap-5 @[10rem]/sidebar:flex-row @[10rem]/sidebar:items-center @[10rem]/sidebar:justify-between p-4">
+      <div className="border-border p-4 flex flex-col gap-2 @[10rem]:flex-row ">
+        <ThemeSettingSidebarOption />
+        <AboutProjectSidebarOption />
+        <AboutMeSidebarOption />
+      </div>
+      <div className="gay:bg-background bg-secondary @container/footer flex flex-col gap-5 @[10rem]/sidebar:flex-row @[10rem]/sidebar:items-center @[10rem]/sidebar:justify-between p-4">
         <div className="flex items-center gap-3">
           <NextAvatar
             src={session?.user.image || ""}
@@ -75,7 +83,7 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
             className="shrink-0"
           />
           <div className="hidden @[10rem]/footer:block">
-            <p className="truncate text-sm font-semibold">
+            <p className="truncate text-sm font-semibold text-foreground">
               {session?.user.name}
             </p>
             <p className="text-xs text-muted-foreground truncate">
@@ -83,7 +91,11 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
             </p>
           </div>
         </div>
-        <SignOutButton size="sm" variant="outline" className="w-fit" />
+        <SignOutButton
+          size="sm"
+          variant="outline"
+          className="bg-gay w-fit text-foreground dark:bg-secondary dark:hover:bg-background"
+        />
       </div>
     </div>
   );

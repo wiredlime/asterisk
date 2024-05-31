@@ -36,7 +36,7 @@ async function Page() {
     })
   );
   return (
-    <main className="h-full grid grid-cols-[4fr_8fr]">
+    <main className=" h-full grid grid-cols-[4fr_8fr]">
       <div className="h-full border-r">
         <FriendRequestList
           requests={incomingFriendRequests}
@@ -75,7 +75,7 @@ const Everybody = async () => {
       <p className="text-xs text-muted-foreground text-end">
         There are {users.length} friends waiting for you
       </p>
-      <div className="absolute top-8 h-12 w-full bg-gradient-to-t from-transparent to-white to-100% z-10"></div>
+      <div className="absolute top-8 h-20 w-full bg-gradient-to-t from-transparent gay:hidden dark:to-black midnight:to-black to-white to-100% z-20"></div>
       <div className="py-8 flex flex-wrap gap-4 no-scrollbar overflow-y-scroll overflow-x-hidden h-[780px]">
         {users.map((user, index) => {
           return (

@@ -49,12 +49,12 @@ function FriendList({ friends, sessionId }: FriendListProps) {
           placeholder="Look friend up by their name..."
           startAdornment={<Search className="w-4 h-4" />}
         />
-        <Button size="sm" type="submit">
+        <Button size="sm" type="submit" className="bg-gay">
           Search
         </Button>
       </form>
       {filteredFriends.length ? (
-        <div className="flex flex-wrap gap-10 p-10 w-full">
+        <div className="flex flex-wrap gap-10 py-10 px-4 w-full">
           {filteredFriends.map((friend) => (
             <div
               key={friend.id}
@@ -68,7 +68,9 @@ function FriendList({ friends, sessionId }: FriendListProps) {
                     className="w-20 h-20"
                   />
                 </div>
-                <p className="text-sm font-medium">{friend.name}</p>
+                <p className="text-sm font-medium text-secondary-foreground">
+                  {friend.name}
+                </p>
                 <p className="text-sm text-muted-foreground">{friend.email}</p>
               </div>
               <div className="w-full flex items-center gap-2">

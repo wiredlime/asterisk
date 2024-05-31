@@ -74,6 +74,7 @@ function AddFriendButton({}: AddFriendButtonProps) {
         <Input
           type="text"
           placeholder="friend@example.com"
+          className="text-foreground bg-gay"
           {...register("email")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

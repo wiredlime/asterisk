@@ -60,7 +60,10 @@ const ChatList = ({
           sessionId={sessionId || ""}
           friends={friends}
           formTrigger={
-            <Button variant="ghost" className="px-0 ml-4 h-0">
+            <Button
+              variant="ghost"
+              className="px-0 ml-4 h-0 dark:text-foreground"
+            >
               <SquarePen className="w-5 h-5" />
             </Button>
           }
@@ -129,14 +132,10 @@ export default ChatList;
 // TODO: Make component reusable
 export const EmptyState = () => {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-0">
-      <div className="relative w-60 h-60">
-        <Image
-          fill
-          alt="Empty state"
-          src="https://illustrations.popsy.co/white/online-dating.svg"
-        />
-      </div>
+    <div className="bg-card w-full h-full flex flex-col items-center justify-center gap-0">
+      {/* <div className="relative w-60 h-60 bg-foreground rounded-full p-4 backdrop-blur-md">
+        <Image fill alt="Empty state" src="/communication.svg" />
+      </div> */}
       <p className="italic text-muted-foreground">
         Click on your favorite person to start chatting!
       </p>

@@ -143,7 +143,7 @@ export default function NewMessageForm({
         {formTrigger ? (
           formTrigger
         ) : (
-          <Button className="grow gap-2" size="sm">
+          <Button className="bg-gay grow gap-2" size="sm" variant="secondary">
             <Send className="w-4 h-4" />
           </Button>
         )}

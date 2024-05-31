@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Button, ButtonProps } from "./ui/button";
 import { Loader2, UserCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -50,14 +50,20 @@ export default function FriendActionButton({
   return isFriend ? (
     <div className="group w-full hover:cursor-pointer">
       <Button
-        className={cn("group-hover:hidden w-full gap-2", className)}
+        className={cn(
+          "group-hover:hidden w-full gap-2 text-foreground dark:border",
+          className
+        )}
         size="sm"
         variant="ghost"
       >
         Friend <UserCheck className="w-3 h-3" />
       </Button>
       <Button
-        className={cn("group-hover:flex hidden w-full gap-2", className)}
+        className={cn(
+          "group-hover:flex hidden w-full gap-2 text-foreground dark:border",
+          className
+        )}
         size="sm"
         variant="secondary"
         onClick={handleUnfriend}
@@ -121,7 +127,7 @@ const AddFriendButton = ({
     />
   ) : (
     <Button
-      className={cn("w-full gap-2")}
+      className={cn("bg-gay w-full gap-2 text-foreground dark:border")}
       size="sm"
       variant="outline"
       onClick={handleAddFriend}

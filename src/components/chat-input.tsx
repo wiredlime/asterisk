@@ -6,13 +6,7 @@ import { Button } from "./ui/button";
 import { Loader2, SendHorizonal, SmilePlus } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
+
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type ChatInputProps = {
@@ -69,7 +63,7 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
         <div className="flex flex-row p-2">
           <Popover>
             <PopoverTrigger className="px-4">
-              <SmilePlus className="w-5 h-5" />
+              <SmilePlus className="w-5 h-5 text-foreground" />
             </PopoverTrigger>
             <PopoverContent className="bg-transparent w-fit h-fit shadow-none border-none">
               <EmojiPicker onEmojiClick={handleEmojiClick} />
@@ -100,7 +94,7 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
             {isLoading ? (
               <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
             ) : (
-              <SendHorizonal className="rounded-full " />
+              <SendHorizonal className="text-foreground rounded-full " />
             )}
           </Button>
         </div>
