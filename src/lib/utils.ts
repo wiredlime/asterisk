@@ -15,7 +15,7 @@ export function toPusherKey(key: string) {
   return key.replace(/:/g, "__");
 }
 
-const GRADIENT_PALETTE = [
+export const GRADIENT_PALETTE = [
   "linear-gradient(180deg, #A9C9FF 0%, #FFBBEC 100%)",
   "linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%)",
   "linear-gradient(19deg, #3EECAC 0%, #EE74E1 100%)",
