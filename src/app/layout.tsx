@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Providers from "@/components/providers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import ChatProvider from "@/contexts/chat-provider";
 import { fetchRedis } from "@/helpers/redis";
-import { chatHrefConstructor } from "@/lib/utils";
+import { chatHrefConstructor, cn } from "@/lib/utils";
 import { ActiveChat } from "@/components/chat-list";
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import { Message } from "@/lib/validations/message";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Asterisk",
-  description: "Let's chitty chat chit with everyone",
-};
+import ToastProvider from "@/contexts/toast-provider";
+import ThemeProvider from "@/contexts/theme-provider";
 
 export default async function RootLayout({
   children,
@@ -50,18 +44,18 @@ export default async function RootLayout({
     })
   );
 
+  // TODO: Get theme value from local storage
+
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>
-          <ChatProvider
-            sessionId={session?.user.id || ""}
-            activeChats={friendsWithLastMessage}
-          >
-            {children}
-          </ChatProvider>
-        </Providers>
-      </body>
-    </html>
+    <ThemeProvider>
+      <ToastProvider>
+        <ChatProvider
+          activeChats={friendsWithLastMessage}
+          sessionId={session?.user.id || ""}
+        >
+          {children}
+        </ChatProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
