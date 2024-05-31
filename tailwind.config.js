@@ -1,4 +1,5 @@
-import type { Config } from "tailwindcss";
+// import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
@@ -77,7 +78,21 @@ const config = {
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/container-queries"),
+    plugin(({ addVariant, e }) => {
+      addVariant("midnight", ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          const newClass = e(`midnight${separator}${className}`);
+          return `.${newClass}:is(.midnight *)`;
+        });
+      });
+      addVariant("gay", ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          const newClass = e(`gay${separator}${className}`);
+          return `.${newClass}:is(.gay *)`;
+        });
+      });
+    }),
   ],
-} satisfies Config;
+};
 
 export default config;
