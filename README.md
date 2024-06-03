@@ -3,6 +3,12 @@ Let's meet random people at random places on the internet.
 
 Visit **[Asterisk here](https://chat-app-wiredlimes-projects.vercel.app/login)** 🚀
 
+![dashboard](https://github.com/wiredlime/chat-app/assets/79243058/049f1c20-d96a-4f3c-ab54-920da93a745c)
+
+<br/>
+<br/>
+
+-----
 <br/>
 <br/>
 
@@ -46,6 +52,8 @@ The chat application is built using the following technologies:
 
 <br/>
 
+https://github.com/wiredlime/chat-app/assets/79243058/0d5d05e3-f5cd-4172-b2d1-d81a66c6c44a
+
 ##### Manage and add new friends
 
 
@@ -55,5 +63,10 @@ The chat application is built using the following technologies:
 
 ##### Theme settings
 
-https://github.com/wiredlime/chat-app/assets/79243058/0d5d05e3-f5cd-4172-b2d1-d81a66c6c44a
+
+https://github.com/wiredlime/chat-app/assets/79243058/4ae3d9d4-8e33-40ab-b3bc-dd41283041d8
+
+<br/>
+
+
 
