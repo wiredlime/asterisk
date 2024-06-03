@@ -49,7 +49,7 @@ function FriendList({ friends, sessionId }: FriendListProps) {
           placeholder="Look friend up by their name..."
           startAdornment={<Search className="w-4 h-4" />}
         />
-        <Button size="sm" type="submit" className="bg-gay">
+        <Button size="sm" type="submit">
           Search
         </Button>
       </form>

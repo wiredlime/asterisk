@@ -21,7 +21,7 @@ function FriendRequestSidebarOption({
   const requestCount = useMemo(() => {
     if (unseenRequestCount > 0) {
       return (
-        <div className="rounded-full font-medium text-xs w-5 h-5 flex justify-center items-center bg-primary bg-gay text-primary-foreground gay:text-primary">
+        <div className="rounded-full font-medium text-xs w-5 h-5 flex justify-center items-center bg-primary text-primary-foreground">
           {unseenRequestCount}
         </div>
       );

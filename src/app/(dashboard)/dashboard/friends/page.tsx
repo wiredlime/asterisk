@@ -69,25 +69,33 @@ const Everybody = async () => {
       return user.email;
     }
   );
+  const friendIds = (await fetchRedis(
+    "smembers",
+    `user:${session?.user.id}:friends`
+  )) as string[];
 
   return (
     <div className="p-4 relative space-y-4">
       <p className="text-xs text-muted-foreground text-end">
         There are {users.length} friends waiting for you
       </p>
-      <div className="absolute top-8 h-20 w-full bg-gradient-to-t from-transparent gay:hidden dark:to-black midnight:to-black to-white to-100% z-20"></div>
-      <div className="py-8 flex flex-wrap gap-4 no-scrollbar overflow-y-scroll overflow-x-hidden h-[780px]">
+      <div className="absolute top-8 h-20 w-full bg-gradient-to-t from-transparent dark:to-black midnight:to-black to-white to-100% z-20"></div>
+      <div className="py-8 flex flex-wrap gap-4 no-scrollbar overflow-y-scroll overflow-x-hidden h-screen">
         {users.map((user, index) => {
+          const isFriend = !!friendIds.find((id) => id === user.id);
           return (
             <UserCard
               key={user.id}
               name={user.name || ""}
               image={user.image || ""}
               email={user.email || ""}
-              isFriend={false}
+              isFriend={isFriend}
             />
           );
         })}
+        <div className="w-[223px] h-[257px]"></div>
+        <div className="w-[223px] h-[257px]"></div>
+        <div className="w-[223px] h-[257px]"></div>
         <div className="w-[223px] h-[257px]"></div>
       </div>
     </div>

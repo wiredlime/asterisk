@@ -49,7 +49,7 @@ export default function RecipientInput({
       <p className="text-sm text-muted-foreground">Recipient: </p>
       <MentionsInput
         singleLine
-        className="w-full"
+        className="w-full text-[#78716C]" // TODO: Will style the in a more theme systematic way
         placeholder="@example"
         value={selected}
         onChange={handleOnChange}
@@ -58,7 +58,7 @@ export default function RecipientInput({
           trigger="@"
           data={friends}
           appendSpaceOnAdd
-          className="bg-indigo-200/50"
+          className="bg-indigo-200/50 text-gray-800"
         />
       </MentionsInput>
     </div>

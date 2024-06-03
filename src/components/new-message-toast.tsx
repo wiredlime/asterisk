@@ -6,7 +6,6 @@ import toast, { Toast } from "react-hot-toast";
 import NextAvatar from "./ui/next-avatar";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
-import { Separator } from "./ui/separator";
 type NewMessageToastProps = {
   t: Toast;
   sessionId: string;
@@ -49,7 +48,7 @@ function NewMessageToast({
             />
           </div>
           <div className="flex flex-col">
-            <p className="text-sm font-medium">{senderName}</p>
+            <p className="text-sm font-medium text-foreground">{senderName}</p>
             <p className="text-xs text-muted-foreground line-clamp-3">
               {message}
             </p>

@@ -28,8 +28,8 @@ export interface SideMenuProps {
 }
 export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
   return (
-    <div className="@container/sidebar dark:bg-background midnight:bg-background gay:bg-background/15 bg-accent/30 w-full h-full flex flex-col justify-between">
-      <div className="h-20 border-b p-4 bg-primary bg-gay dark:bg-background midnight:bg-background flex items-center justify-center">
+    <div className="@container/sidebar dark:bg-background midnight:bg-background bg-accent/30 w-full h-full flex flex-col justify-between">
+      <div className="h-20 border-b p-4 bg-primary dark:bg-background midnight:bg-background flex items-center justify-center">
         <Link href="/dashboard" className="flex">
           <Send className="w-5 h-5 text-primary-foreground midnight:text-muted-foreground dark:text-muted-foreground" />
           <Asterisk className="w-5 h-5 text-primary-foreground midnight:text-muted-foreground dark:text-muted-foreground" />
@@ -74,7 +74,7 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
         <AboutProjectSidebarOption />
         <AboutMeSidebarOption />
       </div>
-      <div className="gay:bg-background bg-secondary @container/footer flex flex-col gap-5 @[10rem]/sidebar:flex-row @[10rem]/sidebar:items-center @[10rem]/sidebar:justify-between p-4">
+      <div className="bg-secondary @container/footer flex flex-col gap-5 @[10rem]/sidebar:flex-row @[10rem]/sidebar:items-center @[10rem]/sidebar:justify-between p-4">
         <div className="flex items-center gap-3">
           <NextAvatar
             src={session?.user.image || ""}
@@ -94,7 +94,7 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
         <SignOutButton
           size="sm"
           variant="outline"
-          className="bg-gay w-fit text-foreground dark:bg-secondary dark:hover:bg-background"
+          className="w-fit text-foreground dark:bg-secondary dark:hover:bg-background"
         />
       </div>
     </div>
