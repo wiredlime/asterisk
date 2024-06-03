@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, ButtonProps } from "./ui/button";
 import { Loader2, UserCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -106,6 +106,8 @@ const AddFriendButton = ({
       setIsLoading(false);
       setFriendRequestSent(true);
     } catch (error) {
+      setIsLoading(false);
+
       if (error instanceof z.ZodError) {
         toast.error(error.message);
         return;
@@ -120,6 +122,14 @@ const AddFriendButton = ({
     onAddFriend?.();
   };
 
+  const buttonState = useMemo(() => {
+    if (isLoading) {
+      return <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />;
+    } else {
+      return "Add friend";
+    }
+  }, [isLoading]);
+
   return friendRequestSent ? (
     <FriendRequestActionButton
       friendEmail={friendEmail}
@@ -127,16 +137,12 @@ const AddFriendButton = ({
     />
   ) : (
     <Button
-      className={cn("bg-gay w-full gap-2 text-foreground dark:border")}
+      className={cn("w-full gap-2 text-foreground dark:border")}
       size="sm"
       variant="outline"
       onClick={handleAddFriend}
     >
-      {isLoading ? (
-        <Loader2 className="text-muted-foreground w-4 h-4 animate-spin" />
-      ) : (
-        "Add friend"
-      )}
+      {buttonState}
     </Button>
   );
 };
