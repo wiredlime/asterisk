@@ -12,7 +12,7 @@ import {
 } from "./ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Button } from "./ui/button";
-import { Asterisk, Loader2, Send, SmilePlus } from "lucide-react";
+import { Check, Loader2, Send, SmilePlus } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import TextareaAutosize from "react-textarea-autosize";
@@ -56,7 +56,6 @@ export default function NewMessageForm({
   const sendMessage = async () => {
     if (!input.length) return;
     setIsLoading(true);
-    console.log(sessionId, chatPartner?.id, input);
     try {
       await axios.post(`/api/message/send`, {
         text: input,
@@ -93,8 +92,6 @@ export default function NewMessageForm({
     }));
   }, [friends]);
 
-  console.log(friends, friendAsMentionItem);
-
   useEffect(() => {
     // Cursor placement
     if (textareaRef.current) {
@@ -119,19 +116,14 @@ export default function NewMessageForm({
             </Button>
           )}
         </DialogTrigger>
-        <DialogContent className="py-20 bg-primary/90 ring-0 text-background max-w-xs grid place-items-center gap-5 border-none">
-          <div className="flex flex-row justify-center">
-            <Send className="w-5 h-5" />
-            <Asterisk />
-          </div>
-          <DialogTitle>Message sent!</DialogTitle>
-          <DialogDescription className="text-background">
-            Thanks for making the move. Let&apos;s get in touch with more
-            friends. <br />
+        <DialogContent className="rounded-2xl bg-primary/75 ring-0 text-background w-64 h-64 grid place-items-center border-none">
+          <div className="flex flex-col items-center justify-center">
+            <Check className="w-20 h-20 text-primary-foreground" />
+            <p>Message sent !</p>
             <a href={`/dashboard/chat/${chatId}`} className="text-xs underline">
-              Or go to {chatPartner?.name} inbox
+              Open {chatPartner?.name} inbox
             </a>
-          </DialogDescription>
+          </div>
         </DialogContent>
       </Dialog>
     );
@@ -143,7 +135,7 @@ export default function NewMessageForm({
         {formTrigger ? (
           formTrigger
         ) : (
-          <Button className="bg-gay grow gap-2" size="sm" variant="secondary">
+          <Button className="grow gap-2" size="sm" variant="secondary">
             <Send className="w-4 h-4" />
           </Button>
         )}
@@ -151,7 +143,7 @@ export default function NewMessageForm({
       <DialogContent className="max-w-sm space-y-5 rounded-3xl">
         <DialogHeader className="flex flex-row items-center gap-5">
           <div>
-            <DialogTitle>New message</DialogTitle>
+            <DialogTitle className="text-foreground">New message</DialogTitle>
             <DialogDescription>
               Spin up a message to your friend
             </DialogDescription>
@@ -207,7 +199,12 @@ export default function NewMessageForm({
         </div>
         <DialogFooter className="flex">
           <DialogClose asChild>
-            <Button size="sm" variant="outline" onClick={() => setInput(" ")}>
+            <Button
+              size="sm"
+              className=" text-foreground"
+              variant="outline"
+              onClick={() => setInput(" ")}
+            >
               Cancel
             </Button>
           </DialogClose>
