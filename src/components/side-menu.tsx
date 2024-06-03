@@ -72,14 +72,14 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
         <a
           href="https://github.com/wiredlime"
           target="_blank"
-          className="text-foreground px-2"
+          className="text-muted-foreground px-2"
         >
           <Github className="w-5 h-5" />
         </a>
         <a
           href="https://www.linkedin.com/in/ally-nguyen-67a81520b/"
           target="_blank"
-          className="text-foreground px-2"
+          className="text-muted-foreground px-2"
         >
           <Linkedin className="w-5 h-5" />
         </a>
