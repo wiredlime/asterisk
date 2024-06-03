@@ -24,7 +24,8 @@ Let's meet random people at random places on the internet
 ![manage-friends](https://github.com/wiredlime/chat-app/assets/79243058/b64333b0-d6ac-4e5e-9891-32b8d301d557)
 
 <br/>
-![ScreenRecording2024-06-03at6 29 36PM-ezgif com-cut](https://github.com/wiredlime/chat-app/assets/79243058/eff2d31d-23a9-414e-850a-047117ed25b2)
+
+![add-friend](https://github.com/wiredlime/chat-app/assets/79243058/eff2d31d-23a9-414e-850a-047117ed25b2)
 
 
 <br/>
