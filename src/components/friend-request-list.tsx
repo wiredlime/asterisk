@@ -1,11 +1,10 @@
 "use client";
-
 import React, { useEffect, useMemo, useState } from "react";
 import { Check, Loader2, X } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { pusherClient } from "@/lib/pusher";
-import { toPusherKey } from "@/lib/utils";
+import { cn, toPusherKey } from "@/lib/utils";
 import { UserInfoBox } from "./user-info-box";
 import { Badge } from "./ui/badge";
 
@@ -20,7 +19,6 @@ export default function FriendRequestList({
   sessionId,
 }: FriendRequestListProps) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<"accept" | "deny" | null>(null);
   const [incomingRequests, setIncomingRequests] = useState(requests);
 
   // Listen to the event on the client:
@@ -59,24 +57,6 @@ export default function FriendRequestList({
   }, [sessionId]);
 
   const requestLists = useMemo(() => {
-    const handleRequestActions = async (
-      senderId: string,
-      action: "accept" | "deny"
-    ) => {
-      setIsLoading(action);
-      try {
-        await axios.post(`/api/friends/${action}`, { id: senderId });
-        // Filter out with state to make interactive UI
-        setIncomingRequests((prev) =>
-          prev.filter((request) => request.senderId !== senderId)
-        );
-        setIsLoading(null);
-        // router.refresh();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     if (incomingRequests.length > 0) {
       return incomingRequests.map((request) => (
         <div
@@ -90,28 +70,24 @@ export default function FriendRequestList({
           />
 
           <div className="flex items-center gap-2">
-            <Badge
-              className="bg-foreground gay:bg-transparent gay:border-border hover:cursor-pointer"
-              onClick={() => handleRequestActions(request.senderId, "accept")}
-            >
-              {isLoading === "accept" ? (
-                <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
-              ) : (
-                <Check className="w-4 h-4 text-foreground" />
-              )}
-            </Badge>
-
-            <Badge
-              className="hover:cursor-pointer gay:border-none"
-              variant="outline"
-              onClick={() => handleRequestActions(request.senderId, "deny")}
-            >
-              {isLoading === "deny" ? (
-                <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
-              ) : (
-                <X className="w-4 h-4" />
-              )}
-            </Badge>
+            <FriendRequestActionButton
+              type="accept"
+              senderId={request.senderId}
+              onClick={() =>
+                setIncomingRequests((prev) =>
+                  prev.filter((req) => req.senderId !== request.senderId)
+                )
+              }
+            />
+            <FriendRequestActionButton
+              type="deny"
+              senderId={request.senderId}
+              onClick={() =>
+                setIncomingRequests((prev) =>
+                  prev.filter((req) => req.senderId !== request.senderId)
+                )
+              }
+            />
           </div>
         </div>
       ));
@@ -122,7 +98,7 @@ export default function FriendRequestList({
         No incoming requests
       </div>
     );
-  }, [incomingRequests, isLoading, router]);
+  }, [incomingRequests]);
 
   return (
     <div className="flex flex-col">
@@ -134,3 +110,57 @@ export default function FriendRequestList({
     </div>
   );
 }
+
+type FriendRequestActionButtonProps = {
+  type: "accept" | "deny";
+  senderId: string;
+  onClick?: VoidFunction;
+};
+
+const FriendRequestActionButton = ({
+  onClick,
+  senderId,
+  type,
+}: FriendRequestActionButtonProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRequestActions = async () => {
+    setIsLoading(true);
+    try {
+      await axios.post(`/api/friends/${type}`, { id: senderId });
+      // Filter out with state to make interactive UI
+      // setIncomingRequests((prev) =>
+      //   prev.filter((request) => request.senderId !== senderId)
+      // );
+
+      onClick?.();
+      setIsLoading(false);
+      // router.refresh();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const icon =
+    type === "accept" ? (
+      <Check className="w-4 h-4 text-primary-foreground" />
+    ) : (
+      <X className="w-4 h-4" />
+    );
+
+  return (
+    <Badge
+      className={cn("hover:cursor-pointer", {
+        "bg-foreground": type === "accept",
+      })}
+      variant={type === "accept" ? "default" : "outline"}
+      onClick={handleRequestActions}
+    >
+      {isLoading ? (
+        <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+      ) : (
+        icon
+      )}
+    </Badge>
+  );
+};
