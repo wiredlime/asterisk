@@ -8,6 +8,7 @@ import React, {
   ReactNode,
   SetStateAction,
   createContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -34,16 +35,26 @@ export const metadata: Metadata = {
   description: "Let's chitty chat chit with everyone",
 };
 
+const currentTheme = (localStorage.getItem("theme") as Theme) || Theme.ROOT;
+
 export const ThemeContext = createContext<ThemeContext>({
-  theme: Theme.ROOT,
+  theme: currentTheme,
   setTheme: () => {},
 });
 
 export default function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(Theme.ROOT);
-  // save selected theme to the local storage
+  const [theme, setTheme] = useState<Theme>(currentTheme);
 
-  console.log(theme);
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+    if (!currentTheme) {
+      localStorage.setItem("theme", Theme.ROOT);
+    }
+    if (currentTheme && theme !== currentTheme) {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme]);
+
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <html lang="en" className={cn(theme)}>
