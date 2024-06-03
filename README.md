@@ -1,28 +1,32 @@
 # Asterisk 
 Let's meet random people at random places on the internet
-Visit ![Asterisk here](https://chat-app-wiredlimes-projects.vercel.app/login) 🚀
+Visit **[Asterisk here](https://chat-app-wiredlimes-projects.vercel.app/login)** 🚀
 
----
-
+<br/>
+<br/>
 #### About the project
 
 **Features**
-Real-time messaging: Users can send private and exchange messages in real-time with other users
-Explore and manage friends: Users can browse, find and send friend requests to other users
-Push notifications: Receive notifications for new messages and events.
-Customization: Customize your chat experience with themes, emojis, and other settings.
+
+- Real-time messaging: Users can send private and exchange messages in real-time with other users
+- Explore and manage friends: Users can browse, find and send friend requests to other users
+- Push notifications: Receive notifications for new messages and events.
+- Customization: Customize your chat experience with themes, emojis, and other settings.
 
 **Architecture**
+
 The chat application is built on a client-server architecture. The client application runs on user devices and connects to the server over the internet. The server handles message routing, user management, and data storage.
 
 **Technologies**
+
 The chat application is built using the following technologies:
-Client and Server: NextJS
-Frontend tools: TailwindCss, RadixUI, Shadcn library
-WebSocket: Pusher
-Database: Upstash Redis
+- Client and Server: NextJS
+- Frontend tools: TailwindCss, RadixUI, Shadcn library
+- WebSocket: Pusher
+- Database: Upstash Redis
 
-
+<br/>
+<br/>
 #### Demo
 
 ##### Quickly spin up an account or login as an existing user
