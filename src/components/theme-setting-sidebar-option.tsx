@@ -9,7 +9,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Check, Settings2 } from "lucide-react";
-import { GRADIENT_PALETTE, randomGradientGenerator } from "@/lib/utils";
+import { GRADIENT_PALETTE } from "@/lib/utils";
 import { Theme, ThemeContext } from "@/contexts/theme-provider";
 
 type Props = {};
@@ -70,8 +70,8 @@ export default function ThemeSettingSidebarOption({}: Props) {
           )}
         </DropdownMenuItem>
         <DropdownMenuItem
+          disabled
           className="gap-2 bg-background flex justify-between items-center"
-          onClick={() => setTheme(Theme.GAY)}
         >
           <div className="flex gap-2 items-center">
             <div
@@ -81,7 +81,7 @@ export default function ThemeSettingSidebarOption({}: Props) {
             <span>
               Violence{" "}
               <span className="text-xs italic text-muted-foreground">
-                (beta)
+                (Coming soon)
               </span>
             </span>
           </div>

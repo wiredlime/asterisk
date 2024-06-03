@@ -5,7 +5,7 @@ import FriendActionButton from "./friend-action-button";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { AVATAR_FALLBACK } from "@/lib/constant";
-import { randomGradientGenerator } from "@/lib/utils";
+import { GRADIENT_PALETTE } from "@/lib/utils";
 
 type UserCardProps = {
   isFriend: boolean;
@@ -16,11 +16,11 @@ type UserCardProps = {
 
 const UserCard = ({ isFriend, name, email, image }: UserCardProps) => {
   return (
-    <Card className="gay:bg-background px-4 pb-4 pt-8 relative min-w-[223px] hover:cursor-pointer hover:shadow-md h-fit shrink-0 grow-0 flex flex-col items-center gap-2 rounded-xl">
+    <Card className="px-4 pb-4 pt-8 relative min-w-[223px] hover:cursor-pointer hover:shadow-md h-fit shrink-0 grow-0 flex flex-col items-center gap-2 rounded-xl">
       <div
         className="absolute top-0 h-1/3 w-full rounded-t-xl flex justify-center bg-accent"
         style={{
-          backgroundImage: randomGradientGenerator(),
+          backgroundImage: GRADIENT_PALETTE[0],
         }}
       ></div>
       <div className="rounded-full z-10">
