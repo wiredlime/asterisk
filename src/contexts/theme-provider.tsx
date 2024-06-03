@@ -24,8 +24,8 @@ export enum Theme {
 }
 
 interface ThemeContext {
-  theme: Theme;
-  setTheme: Dispatch<SetStateAction<Theme>>;
+  theme: Theme | null;
+  setTheme: Dispatch<SetStateAction<Theme | null>>;
 }
 
 const inter = Inter({ subsets: ["latin"] });
@@ -35,23 +35,30 @@ export const metadata: Metadata = {
   description: "Let's chitty chat chit with everyone",
 };
 
-const currentTheme = (localStorage.getItem("theme") as Theme) || Theme.ROOT;
-
 export const ThemeContext = createContext<ThemeContext>({
-  theme: currentTheme,
+  theme: Theme.ROOT,
   setTheme: () => {},
 });
 
 export default function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(currentTheme);
+  let initialTheme: Theme | null;
+
+  if (typeof window === undefined) {
+    initialTheme = null;
+  } else {
+    initialTheme =
+      (window.localStorage.getItem("theme") as Theme) || Theme.ROOT;
+  }
+
+  const [theme, setTheme] = useState<Theme | null>(initialTheme);
 
   useEffect(() => {
-    const currentTheme = localStorage.getItem("theme");
+    const currentTheme = window.localStorage.getItem("theme");
     if (!currentTheme) {
-      localStorage.setItem("theme", Theme.ROOT);
+      window.localStorage.setItem("theme", Theme.ROOT);
     }
     if (currentTheme && theme !== currentTheme) {
-      localStorage.setItem("theme", theme);
+      window.localStorage.setItem("theme", theme || "");
     }
   }, [theme]);
 

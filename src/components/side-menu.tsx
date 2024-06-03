@@ -6,12 +6,10 @@ import { Icons } from "./icons";
 import FriendRequestSidebarOption from "./friend-request-sidebar-option";
 import { SidebarOption } from "@/types/typings";
 import { Session } from "next-auth";
-import { Asterisk, Send } from "lucide-react";
+import { Asterisk, Github, Linkedin, Send } from "lucide-react";
 import ChatSidebarOption from "./chat-sidebar-option";
 import NextAvatar from "./ui/next-avatar";
 import ThemeSettingSidebarOption from "./theme-setting-sidebar-option";
-import AboutMeSidebarOption from "./about-me-sidebar-option";
-import AboutProjectSidebarOption from "./about-project-sidebar-option";
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -69,10 +67,22 @@ export const SideMenu = ({ session, unseenRequestCount }: SideMenuProps) => {
           </ul>
         </div>
       </div>
-      <div className="border-border p-4 flex flex-col gap-2 @[10rem]:flex-row ">
+      <div className="border-border p-4 flex flex-col gap-3 @[10rem]:flex-row @[10rem]:items-center">
         <ThemeSettingSidebarOption />
-        <AboutProjectSidebarOption />
-        <AboutMeSidebarOption />
+        <a
+          href="https://github.com/wiredlime"
+          target="_blank"
+          className="text-foreground px-2"
+        >
+          <Github className="w-5 h-5" />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ally-nguyen-67a81520b/"
+          target="_blank"
+          className="text-foreground px-2"
+        >
+          <Linkedin className="w-5 h-5" />
+        </a>
       </div>
       <div className="bg-secondary @container/footer flex flex-col gap-5 @[10rem]/sidebar:flex-row @[10rem]/sidebar:items-center @[10rem]/sidebar:justify-between p-4">
         <div className="flex items-center gap-3">

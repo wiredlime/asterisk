@@ -29,7 +29,7 @@ export default function MobileChatLayout({
   return (
     <div className="fixed w-full bg-zinc-50 border-b border-zinc-200 top-0 inset-z-0 py-3 px-4">
       <div className="w-full flex justify-between items-center">
-        <Link href="/dashboard/add" className="flex gap-2">
+        <Link href="/dashboard" className="flex gap-2">
           <Send className="h-10 " />
           <Asterisk className="h-10 " />
         </Link>
