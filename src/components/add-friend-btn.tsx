@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Check, Loader2 } from "lucide-react";
-import toast from "react-hot-toast";
 
 type AddFriendFormData = z.infer<typeof addFriendValidator>;
 type AddFriendButtonProps = {};
@@ -25,25 +24,25 @@ function AddFriendButton({}: AddFriendButtonProps) {
   });
 
   const addFriend = async (email: string) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const validatedEmail = addFriendValidator.parse({ email });
       await axios.post("/api/friends/add", { email: validatedEmail });
       setIsLoading(false);
       setShowSuccess(true);
     } catch (error) {
-      setIsLoading(false);
       // either toast general error or check for error type and handle separately
       if (error instanceof z.ZodError) {
-        setError("email", { message: error.message });
-        toast.error(error.message);
+        setIsLoading(false); // Have to set loading false here, since zod error throw before executing line 31
+        const errorMsg = JSON.parse(error.message)[0].message;
+        setError("email", { message: errorMsg });
         return;
       }
       if (error instanceof AxiosError) {
         setError("email", { message: error.response?.data });
         return;
       }
-      setError("email", { message: "Something went wrong." });
+      setError("email", { message: "Something went wrong" });
     }
   };
 
@@ -74,7 +73,7 @@ function AddFriendButton({}: AddFriendButtonProps) {
         <Input
           type="text"
           placeholder="friend@example.com"
-          className="text-foreground bg-gay"
+          className="text-foreground"
           {...register("email")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
