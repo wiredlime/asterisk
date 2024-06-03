@@ -21,17 +21,15 @@ Let's meet random people at random places on the internet
 
 #### Manage and add new friends
 
-<img width="848" alt="Screenshot 2024-06-03 at 6 37 39 PM" src="https://github.com/wiredlime/chat-app/assets/79243058/7242ac05-70cf-4d7b-ae51-af7a366a02e3">
-
 ![manage-friends](https://github.com/wiredlime/chat-app/assets/79243058/b64333b0-d6ac-4e5e-9891-32b8d301d557)
 
+<br/>
 ![ScreenRecording2024-06-03at6 29 36PM-ezgif com-cut](https://github.com/wiredlime/chat-app/assets/79243058/eff2d31d-23a9-414e-850a-047117ed25b2)
 
 
 <br/>
 
 #### Theme settings
-
 
 https://github.com/wiredlime/chat-app/assets/79243058/0d5d05e3-f5cd-4172-b2d1-d81a66c6c44a
 
