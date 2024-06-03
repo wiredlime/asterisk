@@ -6,7 +6,7 @@ Visit **[Asterisk here](https://chat-app-wiredlimes-projects.vercel.app/login)**
 <br/>
 <br/>
 
-#### About the project
+### About the project
 
 **Features**
 
@@ -30,7 +30,7 @@ The chat application is built using the following technologies:
 <br/>
 <br/>
 
-#### Demo
+### Demo
 
 ##### Quickly spin up an account or login as an existing user
    
