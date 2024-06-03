@@ -1,43 +1,30 @@
 # Asterisk 
 Let's meet random people at random places on the internet
 
-## Features
+### Features
 
-#### Quickly spin up an account or login as an existing user
+##### Quickly spin up an account or login as an existing user
    
-<img width="540" alt="Screenshot 2024-06-03 at 6 26 37 PM" src="https://github.com/wiredlime/chat-app/assets/79243058/19c4d73b-0912-41fe-98b1-9dd50b00eed4">
 
+![login](https://github.com/wiredlime/chat-app/assets/79243058/c0ec5f53-5de8-4888-83b2-03300a4be95f)
 
 <br/>
 
 #### Send and receive messages
 
 
-
-<img width="540" alt="Screenshot 2024-06-03 at 6 26 37 PM" src="https://github.com/wiredlime/chat-app/assets/79243058/503e73ba-3ad2-4b1f-a87c-7ff91c640c1a">
-
-<br/>
-
-
-#### Manage and add new friends
-
-
-
-<img width="540" alt="Screenshot 2024-06-03 at 6 26 37 PM" src="https://github.com/wiredlime/chat-app/assets/79243058/b64333b0-d6ac-4e5e-9891-32b8d301d557">
+![send-message](https://github.com/wiredlime/chat-app/assets/79243058/99128d7d-6282-41da-9a88-275378ece1eb)
 
 <br/>
 
-
-<img width="540" alt="Screenshot 2024-06-03 at 6 26 37 PM" src="https://github.com/wiredlime/chat-app/assets/79243058/eff2d31d-23a9-414e-850a-047117ed25b2">
-
-<br/>
+##### Manage and add new friends
 
 
-![manage-friends](https://github.com/wiredlime/chat-app/assets/79243058/e6098787-c882-4514-8ce0-fdefe31876c1)
+![manage-friends](https://github.com/wiredlime/chat-app/assets/79243058/0220d861-0c23-4948-aab8-54d60bd1e7c6)
 
 <br/>
 
-#### Theme settings
+##### Theme settings
 
 https://github.com/wiredlime/chat-app/assets/79243058/0d5d05e3-f5cd-4172-b2d1-d81a66c6c44a
 
