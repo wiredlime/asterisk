@@ -28,9 +28,7 @@ The chat application is built using the following technologies:
 
 <br/>
 
-### Demo
-
-##### 🦄 Quickly spin up an account or login as an existing user
+**🦄 Quickly spin up an account or login as an existing user**
    
 
 ![login](https://github.com/wiredlime/chat-app/assets/79243058/c0ec5f53-5de8-4888-83b2-03300a4be95f)
