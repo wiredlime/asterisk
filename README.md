@@ -1,6 +1,6 @@
 # Asterisk 
 Let's meet random people at random places on the internet.
-Visit **[Asterisk here](https://chat-app-wiredlimes-projects.vercel.app/login)** 🚀
+Visit **[Asterisk here](https://asterisk.vercel.app)** 🚀
 
 <br/>
 
