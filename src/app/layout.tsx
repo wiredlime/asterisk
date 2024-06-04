@@ -17,44 +17,44 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
-  const friends = await getFriendsByUserId(session?.user.id || "");
+  // const session = await getServerSession(authOptions);
+  // const friends = await getFriendsByUserId(session?.user.id || "");
 
-  const friendsWithLastMessage: ActiveChat[] = await Promise.all(
-    friends.map(async (friend) => {
-      const [lastMessageRaw] = (await fetchRedis(
-        "zrange",
-        `chat:${chatHrefConstructor(
-          session?.user.id || "",
-          friend.id
-        )}:messages`,
-        -1,
-        -1
-      )) as string[];
+  // const friendsWithLastMessage: ActiveChat[] = await Promise.all(
+  //   friends.map(async (friend) => {
+  //     const [lastMessageRaw] = (await fetchRedis(
+  //       "zrange",
+  //       `chat:${chatHrefConstructor(
+  //         session?.user.id || "",
+  //         friend.id
+  //       )}:messages`,
+  //       -1,
+  //       -1
+  //     )) as string[];
 
-      if (lastMessageRaw) {
-        const lastMessage = JSON.parse(lastMessageRaw) as Message;
-        return {
-          ...friend,
-          lastMessage,
-        };
-      } else {
-        return { ...friend };
-      }
-    })
-  );
+  //     if (lastMessageRaw) {
+  //       const lastMessage = JSON.parse(lastMessageRaw) as Message;
+  //       return {
+  //         ...friend,
+  //         lastMessage,
+  //       };
+  //     } else {
+  //       return { ...friend };
+  //     }
+  //   })
+  // );
 
   // TODO: Get theme value from local storage
 
   return (
     <ThemeProvider>
       <ToastProvider>
-        <ChatProvider
+        {/* <ChatProvider
           activeChats={friendsWithLastMessage}
           sessionId={session?.user.id || ""}
-        >
-          {children}
-        </ChatProvider>
+        > */}
+        {children}
+        {/* </ChatProvider> */}
       </ToastProvider>
     </ThemeProvider>
   );
