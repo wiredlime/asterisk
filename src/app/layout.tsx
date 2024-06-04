@@ -12,13 +12,6 @@ import { Message } from "@/lib/validations/message";
 import ToastProvider from "@/contexts/toast-provider";
 import ThemeProvider from "@/contexts/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Asterisk",
-  description: "Let's chitty chat chit with everyone",
-};
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -52,22 +45,17 @@ export default async function RootLayout({
   // );
 
   // TODO: Get theme value from local storage
+
   return (
-    <html lang="en" className={cn("dark")}>
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ThemeProvider>
+      <ToastProvider>
+        {/* <ChatProvider
+          activeChats={friendsWithLastMessage}
+          sessionId={session?.user.id || ""}
+        > */}
+        {children}
+        {/* </ChatProvider> */}
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
-
-// return (
-//   <ThemeProvider>
-//     <ToastProvider>
-//       <ChatProvider
-//         activeChats={friendsWithLastMessage}
-//         sessionId={session?.user.id || ""}
-//       >
-//         {children}
-//       </ChatProvider>
-//     </ToastProvider>
-//   </ThemeProvider>
-// );
