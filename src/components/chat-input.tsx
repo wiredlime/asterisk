@@ -8,7 +8,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { APP_ORIGIN } from "@/lib/constant";
 
 type ChatInputProps = {
   chatPartner: User;
@@ -27,10 +26,7 @@ export default function ChatInput({ chatPartner, chatId }: ChatInputProps) {
     if (!input.length) return;
     setIsLoading(true);
     try {
-      await axios.post(`${APP_ORIGIN}/api/message/send`, {
-        text: input,
-        chatId,
-      });
+      await axios.post(`/api/message/send`, { text: input, chatId });
 
       // reset and refocus after send message
       setInput("");

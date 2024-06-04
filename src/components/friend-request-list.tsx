@@ -7,7 +7,6 @@ import { pusherClient } from "@/lib/pusher";
 import { cn, toPusherKey } from "@/lib/utils";
 import { UserInfoBox } from "./user-info-box";
 import { Badge } from "./ui/badge";
-import { APP_ORIGIN } from "@/lib/constant";
 
 type FriendRequestListProps = {
   requests: IncomingFriendRequest[];
@@ -128,7 +127,7 @@ const FriendRequestActionButton = ({
   const handleRequestActions = async () => {
     setIsLoading(true);
     try {
-      await axios.post(`${APP_ORIGIN}/api/friends/${type}`, { id: senderId });
+      await axios.post(`/api/friends/${type}`, { id: senderId });
       // Filter out with state to make interactive UI
       // setIncomingRequests((prev) =>
       //   prev.filter((request) => request.senderId !== senderId)

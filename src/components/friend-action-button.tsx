@@ -8,7 +8,6 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import FriendRequestActionButton from "./friend-request-action-button";
-import { APP_ORIGIN } from "@/lib/constant";
 
 interface FriendActionButtonProps extends ButtonProps {
   isFriend: boolean;
@@ -31,9 +30,7 @@ export default function FriendActionButton({
     setIsLoading(true);
     try {
       const validatedEmail = addFriendValidator.parse({ email: friendEmail });
-      await axios.post(`${APP_ORIGIN}/api/friends/unfriend`, {
-        email: validatedEmail,
-      });
+      await axios.post("/api/friends/unfriend", { email: validatedEmail });
       setIsLoading(false);
       setIsFriend(false);
     } catch (error) {
@@ -105,9 +102,7 @@ const AddFriendButton = ({
 
     try {
       const validatedEmail = addFriendValidator.parse({ email: friendEmail });
-      await axios.post(`${APP_ORIGIN}/api/friends/add`, {
-        email: validatedEmail,
-      });
+      await axios.post("/api/friends/add", { email: validatedEmail });
       setIsLoading(false);
       setFriendRequestSent(true);
     } catch (error) {
