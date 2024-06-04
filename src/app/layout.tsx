@@ -56,10 +56,7 @@ export default async function RootLayout({
   // TODO: Get theme value from local storage
   return (
     <html lang="en" className={cn("dark")}>
-      <body className={inter.className}>
-        {session ? session.user.id : "no session"}
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
