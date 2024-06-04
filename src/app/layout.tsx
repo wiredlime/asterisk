@@ -24,7 +24,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
   // const friends = await getFriendsByUserId(session?.user.id || "");
 
   // const friendsWithLastMessage: ActiveChat[] = await Promise.all(
