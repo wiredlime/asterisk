@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Check, Loader2 } from "lucide-react";
+import { APP_ORIGIN } from "@/lib/constant";
 
 type AddFriendFormData = z.infer<typeof addFriendValidator>;
 type AddFriendButtonProps = {};
@@ -27,7 +28,9 @@ function AddFriendButton({}: AddFriendButtonProps) {
     setIsLoading(true);
     try {
       const validatedEmail = addFriendValidator.parse({ email });
-      await axios.post("/api/friends/add", { email: validatedEmail });
+      await axios.post(`${APP_ORIGIN}/api/friends/add`, {
+        email: validatedEmail,
+      });
       setIsLoading(false);
       setShowSuccess(true);
     } catch (error) {

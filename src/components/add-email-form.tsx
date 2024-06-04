@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { APP_ORIGIN } from "@/lib/constant";
 
 const formSchema = z.object({
   email: z.string().email("This is not a valid email."),
@@ -39,9 +40,12 @@ export function AddEmailForm({ onNext }: AddEmailFormProps) {
     // validate if email exist
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/auth/register/validate-email", {
-        email: values.email,
-      });
+      const response = await axios.post(
+        `${APP_ORIGIN}/api/auth/register/validate-email`,
+        {
+          email: values.email,
+        }
+      );
       await new Promise((resolve) => setTimeout(resolve, 200));
       setIsLoading(false);
       if (response.status !== 200) {

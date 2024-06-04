@@ -36,4 +36,5 @@ const generateProfiles = () => {
 export const AVATAR_FALLBACK =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88/ZfPQAI/ANY/TnuUAAAAABJRU5ErkJggg==";
 
+export const APP_ORIGIN = process.env.NEXT_PUBLIC_APP_ORIGIN;
 export const allProfiles = generateProfiles();

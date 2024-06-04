@@ -9,6 +9,7 @@ import { signUpValidator } from "@/lib/validations/sign-up";
 import RegistrationSuccess from "./registration-success";
 import toast from "react-hot-toast";
 import { Check } from "lucide-react";
+import { APP_ORIGIN } from "@/lib/constant";
 
 const TOTAL_STEPS = 4;
 
@@ -49,7 +50,7 @@ export default function SignUpStepper() {
         });
 
         try {
-          const response = await axios.post("/api/auth/register", {
+          const response = await axios.post(`${APP_ORIGIN}/api/auth/register`, {
             email: email,
             name: name,
             image: image,

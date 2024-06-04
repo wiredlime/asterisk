@@ -21,6 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { chatHrefConstructor } from "@/lib/utils";
 import RecipientInput from "./recipient-input";
 import { SuggestionDataItem } from "react-mentions";
+import { APP_ORIGIN } from "@/lib/constant";
 
 type NewMessageFormProps = {
   defaultChatPartner?: User;
@@ -57,7 +58,7 @@ export default function NewMessageForm({
     if (!input.length) return;
     setIsLoading(true);
     try {
-      await axios.post(`/api/message/send`, {
+      await axios.post(`${APP_ORIGIN}/api/message/send`, {
         text: input,
         chatId: chatHrefConstructor(sessionId, chatPartner?.id || ""),
       });

@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import { addFriendValidator } from "@/lib/validations/add-friend";
 import { z } from "zod";
 import toast from "react-hot-toast";
+import { APP_ORIGIN } from "@/lib/constant";
 
 type FriendRequestActionButtonProps = {
   setFriendRequestSent: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,7 +24,9 @@ export default function FriendRequestActionButton({
     setIsLoading(true);
     try {
       const validatedEmail = addFriendValidator.parse({ email: friendEmail });
-      await axios.post("/api/friends/cancel-add", { email: validatedEmail });
+      await axios.post(`${APP_ORIGIN}/api/friends/cancel-add`, {
+        email: validatedEmail,
+      });
 
       setIsLoading(false);
       setFriendRequestSent(false);
