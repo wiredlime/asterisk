@@ -40,12 +40,9 @@ export function AddEmailForm({ onNext }: AddEmailFormProps) {
     // validate if email exist
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${APP_ORIGIN}/api/auth/register/validate-email`,
-        {
-          email: values.email,
-        }
-      );
+      const response = await axios.post(`/api/auth/register/validate-email`, {
+        email: values.email,
+      });
       await new Promise((resolve) => setTimeout(resolve, 200));
       setIsLoading(false);
       if (response.status !== 200) {
