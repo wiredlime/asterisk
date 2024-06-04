@@ -19,7 +19,7 @@ type LayoutProps = {
 const Layout = async ({ children }: LayoutProps) => {
   // If current user is not verified, they cannot access to dashboard
   const session = await getServerSession(authOptions);
-  if (!session) notFound();
+  // if (!session) notFound(); // Please do not redirect to notfound page here. As it will sign out
 
   const unseenRequestCount = (await fetchRedis(
     "smembers",
