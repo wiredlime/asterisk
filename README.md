@@ -13,10 +13,6 @@ Visit **[Asterisk here](https://asterisk.vercel.app)** 🚀
 - Push notifications: Receive notifications for new messages and events.
 - Customization: Customize your chat experience with themes, emojis, and other settings.
 
-**Architecture**
-
-The chat application is built on a client-server architecture. The client application runs on user devices and connects to the server over the internet. The server handles message routing, user management, and data storage.
-
 **Technologies**
 
 The chat application is built using the following technologies:
