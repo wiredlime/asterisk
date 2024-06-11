@@ -58,5 +58,7 @@ https://github.com/wiredlime/chat-app/assets/79243058/4ae3d9d4-8e33-40ab-b3bc-dd
 
 <br/>
 
+### Contact
 
+For any questions or collaboration, please reach out to us at [tiennguyen.baked@gmail.com](mailto:tiennguyen.baked@gmail.com).
 
